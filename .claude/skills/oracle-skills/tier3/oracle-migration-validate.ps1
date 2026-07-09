@@ -249,7 +249,7 @@ function Format-MigrationMarkdownTable {
 
             $allMigrations += @{
                 Migration = $nameEscaped
-                Status = "✓ Applied"
+                Status = "[OK] Applied"
                 AppliedAt = $dateEscaped
             }
         }
@@ -263,7 +263,7 @@ function Format-MigrationMarkdownTable {
 
             $allMigrations += @{
                 Migration = $nameEscaped
-                Status = "✗ Missing"
+                Status = "[!!] Missing"
                 AppliedAt = "-"
             }
         }
@@ -277,7 +277,7 @@ function Format-MigrationMarkdownTable {
 
             $allMigrations += @{
                 Migration = $nameEscaped
-                Status = "◆ Extra"
+                Status = "[*] Extra"
                 AppliedAt = "-"
             }
         }
@@ -328,15 +328,6 @@ try {
 
         Write-Warning "Migration validation failed: Migrations table not found or query failed"
         exit 1
-    }
-
-    # Normalize applied migrations to array
-    if ($null -ne $appliedMigrationsList -and $appliedMigrationsList -isnot [object[]]) {
-        $appliedMigrationsList = @($appliedMigrationsList)
-    }
-
-    if ($null -eq $appliedMigrationsList) {
-        $appliedMigrationsList = @()
     }
 
     # Compare migration sets
