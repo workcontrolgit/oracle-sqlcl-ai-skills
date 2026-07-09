@@ -47,3 +47,15 @@
 - **Output Format Customization:** When skill needs custom Status values (like "CONFLICTS_DETECTED" vs "PASS"), build output directly using ConvertTo-DiagnosticJson + ConvertTo-MarkdownTable instead of Format-SuccessOutput/FailureOutput which override Status to "PASS"/"FAIL".
 - **MigrationsTable Validation with Parameter Attribute:** Use `[ValidatePattern('^[A-Z0-9_]{1,30}$')]` on script parameters for automatic validation before function execution - more elegant than manual validation inside functions.
 - **Symmetric Conflict Detection Logic:** Drift and missing detection must be symmetrical - if checking for extra objects of type X in drift section, also check for missing objects of type X in missing section. The Compare-SchemaForConflicts function has 6 checks: drift+missing for tables, columns, and constraints. Asymmetry creates blind spots where missing constraints were never detected.
+
+## Task 9 Learnings (oracle-user-permissions)
+
+- **Final Tier 2 Skill Pattern:** Oracle user privilege auditing skill follows established multi-function pattern: query functions (Get-User*), aggregation function (Find-Missing*), try-catch wrapper with ConvertTo-DiagnosticJson output.
+- **DBA View Access Requirement:** Skills querying DBA_* views (DBA_SYS_PRIVS, DBA_TAB_PRIVS, DBA_ROLE_PRIVS, SESSION_PRIVS) require direct database access and appropriate permissions. Test environment must have these views available.
+- **PowerShell 5.1 Null Coalescing:** Null coalescing operator (??) not available in PS 5.1; use `if ($null -ne $var) { $var } else { default }` pattern instead.
+- **String Concatenation with NewLine:** Use `[Environment]::NewLine` instead of backtick-n (\`n) in multiline strings when building output; more reliable for cross-platform compatibility.
+- **Permission Gap Detection:** Baseline privilege requirements defined in hashtable ($requiredTablePrivileges); gap detection compares actual privileges against baseline by iterating tables and required privs per table.
+
+- **Status Field Overwrite Issue:** Format-SuccessOutput and Format-FailureOutput unconditionally override Status field to "PASS" or "FAIL" (lines 227, 270 in OutputFormatter.psm1). When skills need custom Status values (like "RESET_CANCELLED", "SUCCESS", "ERROR"), must bypass these functions and format JSON+markdown directly.
+- **Direct Output Pattern:** Instead of `Format-SuccessOutput -Result $result -Message $msg`, use: `$jsonOutput = "``````json\n" + (ConvertTo-DiagnosticJson -Result $result) + "\n``````"` followed by manual markdown block construction. This preserves custom Status values from result hashtable.
+- **Array Normalization Efficiency:** Use `@($expression)` directly to ensure result is always an array, eliminating need for redundant `if ($x -isnot [object[]])` checks. Example: `$tableNames = @(($tables | Select-Object -ExpandProperty Name | Where-Object { -not [string]::IsNullOrEmpty($_) }))`

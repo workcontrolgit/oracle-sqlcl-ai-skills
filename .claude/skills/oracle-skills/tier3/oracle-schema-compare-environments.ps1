@@ -32,7 +32,7 @@ function Get-EnvironmentSchemaSnapshot {
         $schema = @{Tables = @(); Columns = @{}; Constraints = @{}}
         $tables = Get-TableList -Environment $Environment
         if ($null -eq $tables) { return $schema }
-        if ($tables -isnot [object[]]) { $tables = @($tables) }
+        $tables = @($tables)
 
         foreach ($table in $tables) {
             $tableName = $table.Name
@@ -41,14 +41,14 @@ function Get-EnvironmentSchemaSnapshot {
 
             $columns = Get-TableColumns -Environment $Environment -TableName $tableName
             if ($null -ne $columns) {
-                if ($columns -isnot [object[]]) { $columns = @($columns) }
+                $columns = @($columns)
                 $schema.Columns[$tableName] = $columns
             }
 
             if ($ComparisonType -eq "full") {
                 $constraints = Get-TableConstraints -Environment $Environment -TableName $tableName
                 if ($null -ne $constraints) {
-                    if ($constraints -isnot [object[]]) { $constraints = @($constraints) }
+                    $constraints = @($constraints)
                     $schema.Constraints[$tableName] = $constraints
                 }
             }

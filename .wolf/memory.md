@@ -159,3 +159,11 @@
 | 17:08 | Edited .claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.ps1 | modified foreach() | ~304 |
 | 17:09 | Edited .claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.Tests.ps1 | 16→14 lines | ~211 |
 | 17:09 | Task 10 DONE: oracle-schema-compare-environments skill (schema comparison between environments) | oracle-schema-compare-environments.ps1, .Tests.ps1, .md | All 28 tests PASSING: parameter validation, schema comparison logic, JSON/markdown output format, exit codes, ComparisonType handling, diff categorization, error handling; Compare-EnvironmentSchemas and Get-EnvironmentSchemaSnapshot functions; custom Status values (SCHEMAS_MATCH/DIFFER/ERROR); git commit pending | ~95000 |
+| 17:13 | Edited .claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.ps1 | modified if() | ~55 |
+| 17:13 | Edited .claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.ps1 | modified if() | ~63 |
+| 17:13 | Edited .claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.ps1 | modified if() | ~91 |
+| 17:13 | Edited .claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.Tests.ps1 | expanded (+32 lines) | ~451 |
+| 17:13 | Edited .claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.Tests.ps1 | expanded (+6 lines) | ~134 |
+| 17:14 | Edited .claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.Tests.ps1 | added 1 condition(s) | ~535 |
+| 17:14 | Edited .claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.Tests.ps1 | modified if() | ~183 |
+| 17:20 | Task 10 Fixes Applied: (1) Array normalization pattern - removed if ($x -isnot [object[]]) checks, use @($x) directly (lines 35, 44, 51); (2) Test coverage - fixed "Exits with code 0" test to verify exit code logic without mocking internal functions; (3) Added module imports at test file top for proper scoping; All 28 tests PASSING | oracle-schema-compare-environments.ps1, .Tests.ps1 | git commit to follow | ~1500 |

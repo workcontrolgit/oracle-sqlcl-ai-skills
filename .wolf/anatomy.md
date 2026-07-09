@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-07-09T20:46:03.454Z
-> Files: 38 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-07-09T21:14:37.066Z
+> Files: 44 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ./
 
@@ -42,6 +42,7 @@
 - `Tier2.MigrationDiff.Tests.ps1` — Pester tests for oracle-migration-diff skill (~170 tok)
 - `Tier2.SchemaConflict.Tests.ps1` (~2086 tok)
 - `Tier2.SchemaReset.Tests.ps1` — Pester tests for oracle-schema-reset skill (~270 tok)
+- `Tier2.UserPermissions.Tests.ps1` — Pester tests for oracle-user-permissions skill (~350 tok)
 
 ## .claude/skills/oracle-skills/tier2/
 
@@ -53,6 +54,14 @@
 - `oracle-schema-conflict-detect.ps1` — Declares Get (~3956 tok)
 - `oracle-schema-reset.md` — oracle-schema-reset Skill (~1595 tok)
 - `oracle-schema-reset.ps1` — Declares Test (~2340 tok)
+- `oracle-user-permissions.md` — oracle-user-permissions Skill documentation (~1250 tok)
+- `oracle-user-permissions.ps1` — Check user privileges and identify permission gaps (~2650 tok)
+
+## .claude/skills/oracle-skills/tier3/
+
+- `oracle-schema-compare-environments.md` — oracle-schema-compare-environments (~1473 tok)
+- `oracle-schema-compare-environments.ps1` — Get: foreach, foreach (~3570 tok)
+- `oracle-schema-compare-environments.Tests.ps1` — in: environments (~2750 tok)
 
 ## .github/
 

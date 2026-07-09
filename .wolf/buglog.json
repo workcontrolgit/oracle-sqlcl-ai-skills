@@ -16,6 +16,22 @@
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-07-09T20:45:45.119Z"
+    },
+    {
+      "id": "bug-002",
+      "timestamp": "2026-07-09T21:13:19.734Z",
+      "error_message": "Significant refactor of ",
+      "file": ".claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.Tests.ps1",
+      "root_cause": "3 lines replaced/restructured",
+      "fix": "Rewrote 6→38 lines (3 removed) | Also: # Create a test script that compares matching sche; $testScript = {",
+      "tags": [
+        "auto-detected",
+        "refactor",
+        "ps1"
+      ],
+      "related_bugs": [],
+      "occurrences": 2,
+      "last_seen": "2026-07-09T21:14:37.076Z"
     }
   ]
 }

@@ -1,214 +1,197 @@
 {
-  "session_id": "session-2026-07-09-1611",
-  "started": "2026-07-09T20:11:57.652Z",
+  "session_id": "session-2026-07-09-1702",
+  "started": "2026-07-09T21:02:04.275Z",
   "files_read": {
-    "c:/apps/oracle/.wolf/cerebrum.md": {
-      "count": 7,
-      "tokens": 0,
-      "first_read": "2026-07-09T20:12:17.979Z"
-    },
-    "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-migration-status.md": {
-      "count": 1,
-      "tokens": 0,
-      "first_read": "2026-07-09T20:12:22.801Z"
-    },
-    "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-migration-status.ps1": {
+    "c:/apps/oracle/.wolf/buglog.json": {
       "count": 2,
-      "tokens": 310,
-      "first_read": "2026-07-09T20:12:22.884Z"
-    },
-    "c:/apps/oracle/.claude/skills/oracle-skills/tests/Tier2.Migration.Tests.ps1": {
-      "count": 3,
-      "tokens": 310,
-      "first_read": "2026-07-09T20:12:26.458Z"
-    },
-    "c:/apps/oracle/docs/superpowers/plans/2026-07-09-oracle-skills-implementation.md": {
-      "count": 2,
-      "tokens": 7595,
-      "first_read": "2026-07-09T20:14:01.522Z"
+      "tokens": 0,
+      "first_read": "2026-07-09T21:02:25.862Z"
     },
     "c:/apps/oracle/.wolf/anatomy.md": {
-      "count": 14,
+      "count": 1,
       "tokens": 0,
-      "first_read": "2026-07-09T20:14:36.565Z"
+      "first_read": "2026-07-09T21:02:25.944Z"
     },
-    "c:/apps/oracle/.wolf/buglog.json": {
-      "count": 4,
+    "c:/apps/oracle/.wolf/cerebrum.md": {
+      "count": 1,
       "tokens": 0,
-      "first_read": "2026-07-09T20:14:36.572Z"
+      "first_read": "2026-07-09T21:02:25.950Z"
+    },
+    "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-user-permissions.Tests.ps1": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-07-09T21:02:30.730Z"
+    },
+    "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-user-permissions.ps1": {
+      "count": 1,
+      "tokens": 2650,
+      "first_read": "2026-07-09T21:02:30.807Z"
+    },
+    "c:/apps/oracle/.claude/skills/oracle-skills/tests/Tier2.UserPermissions.Tests.ps1": {
+      "count": 2,
+      "tokens": 350,
+      "first_read": "2026-07-09T21:02:34.638Z"
     },
     "c:/apps/oracle/.claude/skills/oracle-skills/shared/OutputFormatter.psm1": {
-      "count": 13,
-      "tokens": 2053,
-      "first_read": "2026-07-09T20:14:43.792Z"
-    },
-    "c:/apps/oracle/.claude/skills/oracle-skills/shared/SchemaInspector.psm1": {
-      "count": 5,
-      "tokens": 1677,
-      "first_read": "2026-07-09T20:14:55.881Z"
-    },
-    "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-migration-diff.ps1": {
-      "count": 6,
-      "tokens": 2091,
-      "first_read": "2026-07-09T20:18:56.834Z"
-    },
-    "c:/apps/oracle/.wolf/memory.md": {
-      "count": 5,
-      "tokens": 0,
-      "first_read": "2026-07-09T20:19:26.127Z"
-    },
-    "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-migration-diff.md": {
       "count": 1,
-      "tokens": 380,
-      "first_read": "2026-07-09T20:20:49.834Z"
-    },
-    "c:/apps/oracle/.claude/skills/oracle-skills/tests/Tier2.MigrationDiff.Tests.ps1": {
-      "count": 4,
-      "tokens": 170,
-      "first_read": "2026-07-09T20:21:35.848Z"
+      "tokens": 2053,
+      "first_read": "2026-07-09T21:02:41.810Z"
     },
     "c:/apps/oracle/.claude/skills/oracle-skills/shared/OracleConnection.psm1": {
       "count": 1,
+      "tokens": 2054,
+      "first_read": "2026-07-09T21:03:12.588Z"
+    },
+    "c:/apps/oracle/.wolf/memory.md": {
+      "count": 1,
       "tokens": 0,
-      "first_read": "2026-07-09T20:21:44.195Z"
+      "first_read": "2026-07-09T21:03:54.918Z"
     },
-    "c:/apps/oracle/docker-compose.yml": {
+    "c:/apps/oracle/.claude/skills/oracle-skills/tests/Tier2.MigrationDiff.Tests.ps1": {
       "count": 1,
-      "tokens": 188,
-      "first_read": "2026-07-09T20:24:51.799Z"
-    },
-    "c:/apps/oracle/.claude/skills/oracle-skills/README.md": {
-      "count": 1,
-      "tokens": 720,
-      "first_read": "2026-07-09T20:26:15.938Z"
-    },
-    "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-schema-conflict-detect.ps1": {
-      "count": 8,
-      "tokens": 3956,
-      "first_read": "2026-07-09T20:31:11.339Z"
-    },
-    "c:/apps/oracle/.claude/skills/oracle-skills/tests/Tier2.SchemaConflict.Tests.ps1": {
-      "count": 5,
-      "tokens": 2086,
-      "first_read": "2026-07-09T20:31:11.347Z"
-    },
-    "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-schema-conflict-detect.md": {
-      "count": 1,
-      "tokens": 1290,
-      "first_read": "2026-07-09T20:31:11.427Z"
-    },
-    "c:/apps/oracle/init-scripts/02-hr-schema.sql": {
-      "count": 1,
-      "tokens": 1941,
-      "first_read": "2026-07-09T20:37:48.564Z"
-    },
-    "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-schema-reset.ps1": {
-      "count": 3,
       "tokens": 0,
-      "first_read": "2026-07-09T20:42:43.538Z"
+      "first_read": "2026-07-09T21:04:07.842Z"
     },
-    "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-schema-reset.md": {
-      "count": 2,
-      "tokens": 0,
-      "first_read": "2026-07-09T20:42:43.545Z"
+    "c:/apps/oracle/.claude/skills/oracle-skills/tests/Tier2.Migration.Tests.ps1": {
+      "count": 1,
+      "tokens": 310,
+      "first_read": "2026-07-09T21:04:07.922Z"
     },
     "c:/apps/oracle/.claude/skills/oracle-skills/tests/Tier2.SchemaReset.Tests.ps1": {
-      "count": 3,
+      "count": 1,
       "tokens": 270,
-      "first_read": "2026-07-09T20:42:43.623Z"
+      "first_read": "2026-07-09T21:04:14.539Z"
+    },
+    "c:/apps/oracle/.claude/skills/oracle-skills/tests/Tier2.SchemaConflict.Tests.ps1": {
+      "count": 1,
+      "tokens": 2086,
+      "first_read": "2026-07-09T21:04:14.618Z"
+    },
+    "c:/apps/oracle/docs/superpowers/plans/2026-07-09-oracle-skills-implementation.md": {
+      "count": 4,
+      "tokens": 7595,
+      "first_read": "2026-07-09T21:05:44.918Z"
+    },
+    "C:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-schema-conflict-detect.ps1": {
+      "count": 1,
+      "tokens": 3956,
+      "first_read": "2026-07-09T21:06:43.074Z"
+    },
+    "C:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-schema-conflict-detect.md": {
+      "count": 1,
+      "tokens": 1290,
+      "first_read": "2026-07-09T21:06:43.165Z"
+    },
+    "C:/apps/oracle/.claude/skills/oracle-skills/tests/Tier2.SchemaConflict.Tests.ps1": {
+      "count": 1,
+      "tokens": 2086,
+      "first_read": "2026-07-09T21:06:47.025Z"
+    },
+    "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.Tests.ps1": {
+      "count": 5,
+      "tokens": 3102,
+      "first_read": "2026-07-09T21:08:33.619Z"
+    },
+    "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.ps1": {
+      "count": 3,
+      "tokens": 3599,
+      "first_read": "2026-07-09T21:09:47.158Z"
     }
   },
   "files_written": [
     {
-      "file": "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-migration-diff.ps1",
-      "action": "edit",
-      "tokens": 173,
-      "at": "2026-07-09T20:23:59.739Z"
-    },
-    {
-      "file": "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-migration-diff.ps1",
-      "action": "edit",
-      "tokens": 124,
-      "at": "2026-07-09T20:23:59.940Z"
-    },
-    {
-      "file": "c:/apps/oracle/.claude/skills/oracle-skills/tests/Tier2.SchemaConflict.Tests.ps1",
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.Tests.ps1",
       "action": "create",
-      "tokens": 2235,
-      "at": "2026-07-09T20:27:32.319Z"
+      "tokens": 2846,
+      "at": "2026-07-09T21:07:39.493Z"
     },
     {
-      "file": "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-schema-conflict-detect.ps1",
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.ps1",
       "action": "create",
-      "tokens": 3428,
-      "at": "2026-07-09T20:27:53.091Z"
+      "tokens": 3855,
+      "at": "2026-07-09T21:07:59.220Z"
     },
     {
-      "file": "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-schema-conflict-detect.md",
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.md",
       "action": "create",
-      "tokens": 1474,
-      "at": "2026-07-09T20:28:07.933Z"
+      "tokens": 1684,
+      "at": "2026-07-09T21:08:14.099Z"
     },
     {
-      "file": "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-schema-conflict-detect.ps1",
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.Tests.ps1",
       "action": "edit",
-      "tokens": 71,
-      "at": "2026-07-09T20:28:30.757Z"
+      "tokens": 27,
+      "at": "2026-07-09T21:08:37.546Z"
     },
     {
-      "file": "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-schema-conflict-detect.ps1",
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.ps1",
       "action": "edit",
-      "tokens": 1166,
-      "at": "2026-07-09T20:29:33.616Z"
+      "tokens": 274,
+      "at": "2026-07-09T21:08:50.291Z"
     },
     {
-      "file": "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-schema-conflict-detect.ps1",
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.ps1",
       "action": "edit",
-      "tokens": 812,
-      "at": "2026-07-09T20:33:19.906Z"
+      "tokens": 326,
+      "at": "2026-07-09T21:08:56.022Z"
     },
     {
-      "file": "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-schema-reset.ps1",
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.Tests.ps1",
       "action": "edit",
-      "tokens": 441,
-      "at": "2026-07-09T20:45:44.931Z"
+      "tokens": 226,
+      "at": "2026-07-09T21:09:10.932Z"
     },
     {
-      "file": "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-schema-reset.ps1",
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.ps1",
       "action": "edit",
-      "tokens": 257,
-      "at": "2026-07-09T20:45:45.117Z"
+      "tokens": 59,
+      "at": "2026-07-09T21:13:11.368Z"
     },
     {
-      "file": "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-schema-reset.ps1",
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.ps1",
       "action": "edit",
-      "tokens": 364,
-      "at": "2026-07-09T20:45:45.293Z"
+      "tokens": 67,
+      "at": "2026-07-09T21:13:11.535Z"
     },
     {
-      "file": "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-schema-reset.ps1",
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.ps1",
       "action": "edit",
-      "tokens": 174,
-      "at": "2026-07-09T20:45:52.599Z"
+      "tokens": 98,
+      "at": "2026-07-09T21:13:11.711Z"
     },
     {
-      "file": "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-schema-reset.md",
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.Tests.ps1",
       "action": "edit",
-      "tokens": 183,
-      "at": "2026-07-09T20:46:03.462Z"
+      "tokens": 483,
+      "at": "2026-07-09T21:13:19.732Z"
+    },
+    {
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.Tests.ps1",
+      "action": "edit",
+      "tokens": 143,
+      "at": "2026-07-09T21:13:29.950Z"
+    },
+    {
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.Tests.ps1",
+      "action": "edit",
+      "tokens": 573,
+      "at": "2026-07-09T21:14:07.369Z"
+    },
+    {
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.Tests.ps1",
+      "action": "edit",
+      "tokens": 196,
+      "at": "2026-07-09T21:14:37.074Z"
     }
   ],
   "edit_counts": {
-    ".claude/skills/oracle-skills/tier2/oracle-migration-diff.ps1": 2,
-    ".claude/skills/oracle-skills/tests/Tier2.SchemaConflict.Tests.ps1": 1,
-    ".claude/skills/oracle-skills/tier2/oracle-schema-conflict-detect.ps1": 4,
-    ".claude/skills/oracle-skills/tier2/oracle-schema-conflict-detect.md": 1,
-    ".claude/skills/oracle-skills/tier2/oracle-schema-reset.ps1": 4,
-    ".claude/skills/oracle-skills/tier2/oracle-schema-reset.md": 1
+    ".claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.Tests.ps1": 7,
+    ".claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.ps1": 6,
+    ".claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.md": 1
   },
-  "anatomy_hits": 13,
-  "anatomy_misses": 7,
-  "repeated_reads_warned": 70,
+  "anatomy_hits": 10,
+  "anatomy_misses": 3,
+  "repeated_reads_warned": 11,
   "cerebrum_warnings": 0,
   "stop_count": 0
 }
