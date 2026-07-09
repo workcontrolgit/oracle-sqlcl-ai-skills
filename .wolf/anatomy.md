@@ -1,6 +1,6 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-07-09T20:29:33.607Z
+> Auto-maintained by OpenWolf. Last scanned: 2026-07-09T20:33:19.898Z
 > Files: 33 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ./
@@ -49,7 +49,7 @@
 - `oracle-migration-status.md` — Skill documentation: purpose, parameters, output format (~390 tok)
 - `oracle-migration-status.ps1` — Query and display Oracle schema migration status (~310 tok)
 - `oracle-schema-conflict-detect.md` — oracle-schema-conflict-detect (~1290 tok)
-- `oracle-schema-conflict-detect.ps1` — Declares Get (~3568 tok)
+- `oracle-schema-conflict-detect.ps1` — Declares Get (~3956 tok)
 
 ## .github/
 
@@ -83,3 +83,10 @@
 ## start-scripts/
 
 - `00-ensure-hr.sh` (~255 tok)
+
+- `oracle-schema-reset.ps1` — Safely reset schema to known state (dev only), drop tables (~310 tok)
+- `oracle-schema-reset.md` — Skill documentation: security, parameters, usage (~400 tok)
+
+## .claude/skills/oracle-skills/tests/
+
+- `Tier2.SchemaReset.Tests.ps1` — Pester tests for oracle-schema-reset skill (~270 tok)
