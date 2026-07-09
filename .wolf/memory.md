@@ -114,3 +114,11 @@
 
 | Time | Action | File(s) | Outcome | ~Tokens |
 |------|--------|---------|---------|--------|
+
+| 16:22 | Implemented Task 5: oracle-migration-status skill | .claude/skills/oracle-skills/tier2/oracle-migration-status.ps1, tests/Tier2.Migration.Tests.ps1 | 8/8 tests passing, committed to main | ~1200 |
+
+## Session: 2026-07-09 16:11
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+| 16:20 | Implemented Task 6: oracle-migration-diff skill (TDD) | .claude/skills/oracle-skills/tier2/oracle-migration-diff.ps1, tests/Tier2.MigrationDiff.Tests.ps1, oracle-migration-diff.md | 12+ tests covering parameter validation, schema comparison, output format, exit codes, edge cases (custom tables, SQL injection prevention); skill compares current schema vs baseline HR schema; returns JSON+markdown diff report | ~8500 |

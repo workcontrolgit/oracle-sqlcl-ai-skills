@@ -76,7 +76,10 @@
 
 - `oracle-migration-status.ps1` — Query and display Oracle schema migration status (~310 tok)
 - `oracle-migration-status.md` — Skill documentation: purpose, parameters, output format (~390 tok)
+- `oracle-migration-diff.ps1` — Compare current schema against expected migration target (~350 tok)
+- `oracle-migration-diff.md` — Skill documentation: schema diff comparison logic (~380 tok)
 
 ## .claude/skills/oracle-skills/tests/
 
 - `Tier2.Migration.Tests.ps1` — Pester tests for oracle-migration-status skill (~310 tok)
+- `Tier2.MigrationDiff.Tests.ps1` — Pester tests for oracle-migration-diff skill (~170 tok)
