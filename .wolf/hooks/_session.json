@@ -8,12 +8,12 @@
       "first_read": "2026-07-09T21:02:25.862Z"
     },
     "c:/apps/oracle/.wolf/anatomy.md": {
-      "count": 1,
+      "count": 2,
       "tokens": 0,
       "first_read": "2026-07-09T21:02:25.944Z"
     },
     "c:/apps/oracle/.wolf/cerebrum.md": {
-      "count": 1,
+      "count": 2,
       "tokens": 0,
       "first_read": "2026-07-09T21:02:25.950Z"
     },
@@ -93,9 +93,74 @@
       "first_read": "2026-07-09T21:08:33.619Z"
     },
     "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.ps1": {
-      "count": 3,
-      "tokens": 3599,
+      "count": 4,
+      "tokens": 3570,
       "first_read": "2026-07-09T21:09:47.158Z"
+    },
+    "c:/apps/oracle/.claude/skills/oracle-skills/shared/SchemaInspector.psm1": {
+      "count": 1,
+      "tokens": 1677,
+      "first_read": "2026-07-09T21:16:56.649Z"
+    },
+    "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-migration-status.ps1": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-07-09T21:17:00.893Z"
+    },
+    "c:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-migration-status.md": {
+      "count": 1,
+      "tokens": 390,
+      "first_read": "2026-07-09T21:17:00.973Z"
+    },
+    "c:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.ps1": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-07-09T21:17:05.567Z"
+    },
+    "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-migration-validate.ps1": {
+      "count": 7,
+      "tokens": 0,
+      "first_read": "2026-07-09T21:23:02.569Z"
+    },
+    "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-migration-validate.Tests.ps1": {
+      "count": 5,
+      "tokens": 0,
+      "first_read": "2026-07-09T21:23:02.655Z"
+    },
+    "C:/apps/oracle/.claude/skills/oracle-skills/shared/OutputFormatter.psm1": {
+      "count": 2,
+      "tokens": 2053,
+      "first_read": "2026-07-09T21:24:00.148Z"
+    },
+    "C:/apps/oracle/.claude/skills/oracle-skills/shared": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-07-09T21:29:57.296Z"
+    },
+    "C:/apps/oracle/.claude/skills/oracle-skills/tier2/oracle-migration-status.ps1": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-07-09T21:30:11.054Z"
+    },
+    "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-pre-deploy-check.ps1": {
+      "count": 3,
+      "tokens": 2164,
+      "first_read": "2026-07-09T21:37:38.604Z"
+    },
+    "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-pre-deploy-check.Tests.ps1": {
+      "count": 3,
+      "tokens": 3074,
+      "first_read": "2026-07-09T21:38:25.705Z"
+    },
+    "c:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-pre-deploy-check.Tests.ps1": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-07-09T21:43:15.719Z"
+    },
+    "c:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-pre-deploy-check.ps1": {
+      "count": 1,
+      "tokens": 1012,
+      "first_read": "2026-07-09T21:43:15.802Z"
     }
   },
   "files_written": [
@@ -182,16 +247,117 @@
       "action": "edit",
       "tokens": 196,
       "at": "2026-07-09T21:14:37.074Z"
+    },
+    {
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-migration-validate.Tests.ps1",
+      "action": "create",
+      "tokens": 2432,
+      "at": "2026-07-09T21:17:50.268Z"
+    },
+    {
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-migration-validate.ps1",
+      "action": "create",
+      "tokens": 4232,
+      "at": "2026-07-09T21:18:17.647Z"
+    },
+    {
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-migration-validate.md",
+      "action": "create",
+      "tokens": 2430,
+      "at": "2026-07-09T21:18:39.181Z"
+    },
+    {
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-migration-validate.ps1",
+      "action": "edit",
+      "tokens": 8,
+      "at": "2026-07-09T21:25:15.238Z"
+    },
+    {
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-migration-validate.ps1",
+      "action": "edit",
+      "tokens": 12,
+      "at": "2026-07-09T21:26:22.718Z"
+    },
+    {
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-migration-validate.ps1",
+      "action": "edit",
+      "tokens": 12,
+      "at": "2026-07-09T21:26:25.832Z"
+    },
+    {
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-migration-validate.ps1",
+      "action": "edit",
+      "tokens": 11,
+      "at": "2026-07-09T21:26:31.701Z"
+    },
+    {
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-pre-deploy-check.ps1",
+      "action": "edit",
+      "tokens": 245,
+      "at": "2026-07-09T21:37:44.790Z"
+    },
+    {
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-pre-deploy-check.ps1",
+      "action": "edit",
+      "tokens": 195,
+      "at": "2026-07-09T21:37:50.157Z"
+    },
+    {
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-pre-deploy-check.ps1",
+      "action": "edit",
+      "tokens": 142,
+      "at": "2026-07-09T21:37:56.175Z"
+    },
+    {
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-pre-deploy-check.ps1",
+      "action": "edit",
+      "tokens": 153,
+      "at": "2026-07-09T21:38:08.619Z"
+    },
+    {
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-pre-deploy-check.ps1",
+      "action": "edit",
+      "tokens": 55,
+      "at": "2026-07-09T21:38:32.006Z"
+    },
+    {
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-pre-deploy-check.ps1",
+      "action": "edit",
+      "tokens": 1070,
+      "at": "2026-07-09T21:44:19.285Z"
+    },
+    {
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-pre-deploy-check.ps1",
+      "action": "edit",
+      "tokens": 418,
+      "at": "2026-07-09T21:44:26.159Z"
+    },
+    {
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-pre-deploy-check.ps1",
+      "action": "edit",
+      "tokens": 330,
+      "at": "2026-07-09T21:44:32.969Z"
+    },
+    {
+      "file": "C:/apps/oracle/.claude/skills/oracle-skills/tier3/oracle-pre-deploy-check.Tests.ps1",
+      "action": "edit",
+      "tokens": 3293,
+      "at": "2026-07-09T21:55:27.218Z"
     }
   ],
   "edit_counts": {
     ".claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.Tests.ps1": 7,
     ".claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.ps1": 6,
-    ".claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.md": 1
+    ".claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.md": 1,
+    ".claude/skills/oracle-skills/tier3/oracle-migration-validate.Tests.ps1": 1,
+    ".claude/skills/oracle-skills/tier3/oracle-migration-validate.ps1": 5,
+    ".claude/skills/oracle-skills/tier3/oracle-migration-validate.md": 1,
+    ".claude/skills/oracle-skills/tier3/oracle-pre-deploy-check.ps1": 8,
+    ".claude/skills/oracle-skills/tier3/oracle-pre-deploy-check.Tests.ps1": 1
   },
-  "anatomy_hits": 10,
-  "anatomy_misses": 3,
-  "repeated_reads_warned": 11,
+  "anatomy_hits": 16,
+  "anatomy_misses": 7,
+  "repeated_reads_warned": 29,
   "cerebrum_warnings": 0,
   "stop_count": 0
 }

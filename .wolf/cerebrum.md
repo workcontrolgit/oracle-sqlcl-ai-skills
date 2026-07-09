@@ -60,7 +60,14 @@
 - **Direct Output Pattern:** Instead of `Format-SuccessOutput -Result $result -Message $msg`, use: `$jsonOutput = "``````json\n" + (ConvertTo-DiagnosticJson -Result $result) + "\n``````"` followed by manual markdown block construction. This preserves custom Status values from result hashtable.
 - **Array Normalization Efficiency:** Use `@($expression)` directly to ensure result is always an array, eliminating need for redundant `if ($x -isnot [object[]])` checks. Example: `$tableNames = @(($tables | Select-Object -ExpandProperty Name | Where-Object { -not [string]::IsNullOrEmpty($_) }))`
 
-## Task 11 Learnings (oracle-migration-validate)
+## Task 12 Learnings (oracle-pre-deploy-check)
+
+- **Tier 3 Pre-Deployment Gating Pattern:** Orchestrator skill that runs multiple validation checks and determines deployment readiness. Uses helper functions for each check type (Invoke-*Check pattern), aggregation function for results summary, and conditional mode execution (strict=all checks, basic=minimal).
+- **ValidationMode Pattern:** Parameter controls which checks execute: strict mode runs all 4 checks (Connectivity, SchemaDrift, MigrationStatus, UserPermissions), basic mode runs only Connectivity. Conditional array building: `if ($mode -eq 'strict') { @(check1, check2, check3, check4) } else { @(check1) }`.
+- **ERROR Status in Aggregate Function:** Three status outcomes: DEPLOYMENT_READY (no failures), DEPLOYMENT_BLOCKED (failures detected), ERROR (checks failed to execute). Aggregation counts Pass/Fail/Error states from results array and returns appropriate status.
+- **Query-Based Validation Checks:** Each check (Schema Drift, Migration Status, Permissions) executes SQL queries via Invoke-OracleQuery to detect conditions. Returns hashtable with CheckName, Status (Pass/Fail), Message fields. Handles null/exception results gracefully with try-catch returning Fail status.
+- **Null Result Filtering:** After running checks, filter array to remove null results: `@($checksToRun | Where-Object { $null -ne $_ })` before aggregation. This ensures only valid results are counted.
+- **Summary Reporting:** Output includes detailed summary object with Total checks, Passed count, Failed count, Error count. Each individual check result includes CheckName, Status, Message for transparency.
 
 - **Tier 3 Validation Skill Pattern:** Migration validation skills compare expected vs applied migrations using flexible string matching (prefix and exact match). Use Parse-MigrationInput to handle both array and CSV string inputs, Compare-MigrationSets for categorization (Applied/Missing/Extra), and Format-MigrationMarkdownTable for escaped markdown output.
 - **Migration Input Parsing:** Support both array input `@("0001_init", "0002_users")` and CSV string `"0001_init,0002_users"` by splitting on comma and trimming whitespace. Normalize all inputs to array for consistent processing downstream.
