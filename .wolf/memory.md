@@ -66,3 +66,27 @@
 | 14:02 | Edited .claude/skills/oracle-skills/tests/OracleConnection.Tests.ps1 | modified Clear() | ~101 |
 | 14:03 | Edited .claude/skills/oracle-skills/tests/OracleConnection.Tests.ps1 | Clear() → written() | ~174 |
 | 14:03 | Edited .claude/skills/oracle-skills/tests/OracleConnection.Tests.ps1 | 12→12 lines | ~176 |
+
+| 19:42 | Fixed 3 critical bugs in OracleConnection module: (1) single quote escaping implementation, (2) JSON parser using wrong ConvertFrom-Csv, (3) weak error handling tests with SilentlyContinue | OracleConnection.psm1, OracleConnection.Tests.ps1 | All 27 tests pass | ~4500 |
+| 14:07 | Created .claude/skills/oracle-skills/tests/SchemaInspector.Tests.ps1 | — | ~2419 |
+| 14:08 | Created .claude/skills/oracle-skills/shared/SchemaInspector.psm1 | — | ~1485 |
+| 14:08 | Edited .claude/skills/oracle-skills/shared/SchemaInspector.psm1 | modified Test() | ~394 |
+| 14:08 | Edited .claude/skills/oracle-skills/tests/SchemaInspector.Tests.ps1 | modified if() | ~362 |
+
+## Session: 2026-07-09 (Task 3: SchemaInspector Module)
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+| 18:15 | Task 3 TDD: SchemaInspector module for schema metadata inspection | SchemaInspector.Tests.ps1, SchemaInspector.psm1 | All 26 tests PASS: Get-TableList, Get-TableColumns, Test-TableExists, Get-TableConstraints; uses Invoke-OracleQuery; graceful null handling when Oracle unavailable | ~5200 |
+| 14:12 | Edited .claude/skills/oracle-skills/shared/SchemaInspector.psm1 | added 1 condition(s) | ~147 |
+| 14:12 | Edited .claude/skills/oracle-skills/shared/SchemaInspector.psm1 | added 1 condition(s) | ~116 |
+| 14:12 | Edited .claude/skills/oracle-skills/shared/SchemaInspector.psm1 | added 1 condition(s) | ~133 |
+| 14:12 | Edited .claude/skills/oracle-skills/tests/SchemaInspector.Tests.ps1 | 17→17 lines | ~172 |
+| 14:12 | Edited .claude/skills/oracle-skills/tests/SchemaInspector.Tests.ps1 | removed 16 lines | ~16 |
+| 14:12 | Edited .claude/skills/oracle-skills/tests/SchemaInspector.Tests.ps1 | expanded (+26 lines) | ~391 |
+
+## Session: 2026-07-09 (Task 3: Bug Fixes)
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+| 14:15 | Task 3 Critical Bug Fixes: SQL injection prevention + Pester v3 syntax | SchemaInspector.psm1, SchemaInspector.Tests.ps1 | (1) Added table name validation (A-Z0-9_ only, max 30 char) to Get-TableColumns, Test-TableExists, Get-TableConstraints; (2) Fixed 4 Pester v3 assertions (Module Exports); (3) Removed unused BeforeAll; (4) Added 6 input validation tests for SQL injection; All 32 tests PASS | ~2800 |

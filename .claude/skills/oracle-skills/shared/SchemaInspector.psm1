@@ -69,6 +69,11 @@ function Get-TableColumns {
     )
 
     try {
+        # Validate table name to prevent SQL injection
+        if ($TableName -notmatch '^[A-Z0-9_]{1,30}$') {
+            throw "Invalid table name: must be 1-30 alphanumeric characters and underscore only"
+        }
+
         # Convert to uppercase (Oracle standard)
         $tableNameUpper = $TableName.ToUpper()
 
@@ -119,6 +124,11 @@ function Test-TableExists {
     )
 
     try {
+        # Validate table name to prevent SQL injection
+        if ($TableName -notmatch '^[A-Z0-9_]{1,30}$') {
+            throw "Invalid table name: must be 1-30 alphanumeric characters and underscore only"
+        }
+
         # Convert to uppercase (Oracle standard)
         $tableNameUpper = $TableName.ToUpper()
 
@@ -172,6 +182,11 @@ function Get-TableConstraints {
     )
 
     try {
+        # Validate table name to prevent SQL injection
+        if ($TableName -notmatch '^[A-Z0-9_]{1,30}$') {
+            throw "Invalid table name: must be 1-30 alphanumeric characters and underscore only"
+        }
+
         # Convert to uppercase (Oracle standard)
         $tableNameUpper = $TableName.ToUpper()
 

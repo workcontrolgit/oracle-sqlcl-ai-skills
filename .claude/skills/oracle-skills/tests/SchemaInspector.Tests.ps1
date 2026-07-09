@@ -8,19 +8,6 @@ Import-Module $modulePath -Force
 
 Describe "SchemaInspector" {
 
-    BeforeAll {
-        # Set up mock environment variables for testing
-        $env:ORACLE_HR_PASSWORD = "test_password"
-        $env:STAGING_ORACLE_HOST = "staging.example.com"
-        $env:STAGING_ORACLE_SERVICE = "STAGDB"
-        $env:STAGING_ORACLE_USER = "staging_user"
-        $env:STAGING_ORACLE_PASSWORD = "staging_pass"
-        $env:PROD_ORACLE_HOST = "prod.example.com"
-        $env:PROD_ORACLE_SERVICE = "PRODDB"
-        $env:PROD_ORACLE_USER = "prod_user"
-        $env:PROD_ORACLE_PASSWORD = "prod_pass"
-    }
-
     Context "Get-TableList" {
         It "Returns non-empty array" {
             $tables = Get-TableList -Environment "local"
@@ -96,6 +83,32 @@ Describe "SchemaInspector" {
 
         It "Accepts Environment and TableName parameters" {
             { Get-TableColumns -Environment "local" -TableName "EMPLOYEES" } | Should Not Throw
+        }
+    }
+
+    Context "Input Validation" {
+        It "Rejects invalid table name with SQL characters" {
+            { Get-TableColumns -Environment "local" -TableName "EMPLOYEES'; DROP TABLE users; --" -ErrorAction Stop } | Should Throw
+        }
+
+        It "Rejects invalid table name with spaces" {
+            { Get-TableColumns -Environment "local" -TableName "MY TABLE" -ErrorAction Stop } | Should Throw
+        }
+
+        It "Rejects invalid table name exceeding 30 characters" {
+            { Get-TableColumns -Environment "local" -TableName "A_VERY_LONG_TABLE_NAME_THAT_EXCEEDS_LIMIT" -ErrorAction Stop } | Should Throw
+        }
+
+        It "Accepts valid table names with uppercase letters, numbers, and underscores" {
+            { Get-TableColumns -Environment "local" -TableName "VALID_TABLE_123" } | Should Not Throw
+        }
+
+        It "Rejects invalid table name in Test-TableExists" {
+            { Test-TableExists -Environment "local" -TableName "EMPLOYEES'; DROP TABLE users; --" -ErrorAction Stop } | Should Throw
+        }
+
+        It "Rejects invalid table name in Get-TableConstraints" {
+            { Get-TableConstraints -Environment "local" -TableName "EMPLOYEES'; DROP TABLE users; --" -ErrorAction Stop } | Should Throw
         }
     }
 
@@ -176,19 +189,19 @@ Describe "SchemaInspector" {
 
     Context "Module Exports" {
         It "Exports Get-TableList" {
-            Get-Command Get-TableList -ErrorAction SilentlyContinue | Should Not BeNullOrEmpty
+            (Get-Command Get-TableList -ErrorAction SilentlyContinue) -ne $null | Should Be $true
         }
 
         It "Exports Get-TableColumns" {
-            Get-Command Get-TableColumns -ErrorAction SilentlyContinue | Should Not BeNullOrEmpty
+            (Get-Command Get-TableColumns -ErrorAction SilentlyContinue) -ne $null | Should Be $true
         }
 
         It "Exports Test-TableExists" {
-            Get-Command Test-TableExists -ErrorAction SilentlyContinue | Should Not BeNullOrEmpty
+            (Get-Command Test-TableExists -ErrorAction SilentlyContinue) -ne $null | Should Be $true
         }
 
         It "Exports Get-TableConstraints" {
-            Get-Command Get-TableConstraints -ErrorAction SilentlyContinue | Should Not BeNullOrEmpty
+            (Get-Command Get-TableConstraints -ErrorAction SilentlyContinue) -ne $null | Should Be $true
         }
     }
 
