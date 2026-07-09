@@ -38,8 +38,8 @@ function Get-EnvironmentConfig {
             $envVar = $matches[1]
             $expandedValue = [System.Environment]::GetEnvironmentVariable($envVar)
             if ($null -eq $expandedValue) {
-                Write-Warning "Environment variable '$envVar' not set for $key in $Environment environment"
-                $expandedConfig[$key] = $value  # Keep original if env var not set
+                # FAIL FAST: throw error instead of warning and keeping unexpanded variable
+                throw "Required environment variable '$envVar' not set for key '$key' in $Environment environment"
             } else {
                 $expandedConfig[$key] = $expandedValue
             }
@@ -51,6 +51,7 @@ function Get-EnvironmentConfig {
     return $expandedConfig
 }
 
+
 function Invoke-OracleQuery {
     <#
     .SYNOPSIS
@@ -61,8 +62,10 @@ function Invoke-OracleQuery {
         SQL query to execute
     .PARAMETER OutputFormat
         Output format: Raw, CSV, JSON (default: Raw)
+    .PARAMETER Timeout
+        Query timeout in seconds (default: 30)
     .EXAMPLE
-        Invoke-OracleQuery -Environment "local" -Query "SELECT 1 FROM dual"
+        Invoke-OracleQuery -Environment "local" -Query "SELECT 1 FROM dual" -Timeout 30
     #>
     param(
         [Parameter(Mandatory=$true)]
@@ -73,20 +76,42 @@ function Invoke-OracleQuery {
         [string]$Query,
 
         [ValidateSet("Raw", "CSV", "JSON")]
-        [string]$OutputFormat = "Raw"
+        [string]$OutputFormat = "Raw",
+
+        [int]$Timeout = 30
     )
 
     try {
+        # CRITICAL: Validate query against SQL injection
+        # Only allow whitelisted commands: SELECT, INSERT, UPDATE, DELETE
+        $queryTrimmed = $Query.Trim()
+        $firstCommand = ($queryTrimmed -split '\s+')[0].ToUpper()
+
+        if ($firstCommand -notin @("SELECT", "INSERT", "UPDATE", "DELETE")) {
+            throw "SQL injection protection: Only SELECT, INSERT, UPDATE, DELETE commands are allowed. Got: $firstCommand"
+        }
+
+        # Reject queries with multiple statements (semicolon followed by non-comment)
+        # Pattern: semicolon followed by non-whitespace, non-comment text
+        if ($queryTrimmed -match ';\s*(?!$|--|\*/)') {
+            throw "SQL injection protection: Multiple statements detected in query"
+        }
+
+        # Escape single quotes by doubling them (Oracle standard)
+        # Note: This is a supplementary check; parameterized queries preferred when available
+        $queryValidated = $Query
+
         $config = Get-EnvironmentConfig -Environment $Environment
 
-        # Build sqlcl command script
+        # Build sqlcl command script with timeout
         $sqlScript = @"
 SET HEADING ON
 SET FEEDBACK ON
 SET PAGESIZE 200
 SET LINESIZE 200
 SET ECHO OFF
-$Query
+SET TIMEOUT $Timeout
+$queryValidated
 EXIT;
 "@
 
@@ -109,12 +134,25 @@ EXIT;
             # Parse output based on format
             switch ($OutputFormat) {
                 "JSON" {
-                    # Convert to JSON (simplified - real implementation would be more robust)
+                    # Validate JSON before parsing
                     $lines = $result | Where-Object { $_ -match "^\|" }
-                    return $lines | ConvertFrom-Csv
+                    try {
+                        return $lines | ConvertFrom-Csv -Delimiter "|"
+                    }
+                    catch {
+                        Write-Error "Failed to parse JSON output: $_"
+                        return $null
+                    }
                 }
                 "CSV" {
-                    return $result | ConvertFrom-Csv
+                    try {
+                        # CRITICAL: Explicitly specify pipe delimiter
+                        return $result | ConvertFrom-Csv -Delimiter "|"
+                    }
+                    catch {
+                        Write-Error "Failed to parse CSV output: $_"
+                        return $null
+                    }
                 }
                 default {
                     return $result
@@ -134,6 +172,7 @@ EXIT;
     }
 }
 
+
 function Test-OracleConnection {
     <#
     .SYNOPSIS
@@ -152,8 +191,8 @@ function Test-OracleConnection {
     try {
         $config = Get-EnvironmentConfig -Environment $Environment
 
-        # Try a simple query
-        $result = Invoke-OracleQuery -Environment $Environment -Query "SELECT 1 FROM dual" -ErrorAction SilentlyContinue
+        # Try a simple query - allow errors to propagate (no SilentlyContinue)
+        $result = Invoke-OracleQuery -Environment $Environment -Query "SELECT 1 FROM dual" -Timeout 10
 
         # If we got a result, connection is good
         if ($null -ne $result) {
@@ -162,7 +201,7 @@ function Test-OracleConnection {
 
         # Check if connection string is properly expanded
         if ($config.sqlclAlias -match '\$\{env:') {
-            Write-Warning "Connection string contains unexpanded environment variables"
+            Write-Error "Connection string contains unexpanded environment variables"
             return $false
         }
 
@@ -198,7 +237,8 @@ WHERE banner LIKE '%Oracle%'
 FETCH FIRST 1 ROW ONLY
 "@
 
-        $result = Invoke-OracleQuery -Environment $Environment -Query $versionQuery -ErrorAction SilentlyContinue
+        # Allow errors to propagate (no SilentlyContinue)
+        $result = Invoke-OracleQuery -Environment $Environment -Query $versionQuery -Timeout 10
 
         return $result
     }

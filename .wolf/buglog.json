@@ -1,4 +1,37 @@
 {
   "version": 1,
-  "bugs": []
+  "bugs": [
+    {
+      "id": "bug-001",
+      "timestamp": "2026-07-09T17:57:01.590Z",
+      "error_message": "Significant refactor of ",
+      "file": ".claude/skills/oracle-skills/tests/OracleConnection.Tests.ps1",
+      "root_cause": "2 lines replaced/restructured",
+      "fix": "Rewrote 11→40 lines (2 removed)",
+      "tags": [
+        "auto-detected",
+        "refactor",
+        "ps1"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-07-09T17:57:01.590Z"
+    },
+    {
+      "id": "bug-002",
+      "timestamp": "2026-07-09T17:57:55.412Z",
+      "error_message": "Significant refactor of ",
+      "file": ".claude/skills/oracle-skills/shared/OracleConnection.psm1",
+      "root_cause": "7 lines replaced/restructured",
+      "fix": "Rewrote 82→120 lines (7 removed)",
+      "tags": [
+        "auto-detected",
+        "refactor",
+        "psm1"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-07-09T17:57:55.412Z"
+    }
+  ]
 }

@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-07-09T16:28:01.534Z
-> Files: 14 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-07-09T17:59:01.103Z
+> Files: 20 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ./
 
@@ -18,6 +18,23 @@
 
 - `openwolf.md` (~313 tok)
 
+## .claude/skills/oracle-skills/
+
+- `README.md` — Project documentation (~475 tok)
+
+## .claude/skills/oracle-skills/config/
+
+- `credentials-example.json` (~91 tok)
+- `environments.json` (~336 tok)
+
+## .claude/skills/oracle-skills/shared/
+
+- `OracleConnection.psm1` — Multi-env Oracle connection: config expansion, query execution (SQL injection validation, timeout, CSV/JSON parsing), connectivity test, version query (~2052 tok)
+
+## .claude/skills/oracle-skills/tests/
+
+- `OracleConnection.Tests.ps1` — Pester 27-test suite: env config (expansion, fail-fast), query (SQL injection, timeout, output format), connection (boolean result), version; security & error handling validation (~2279 tok)
+
 ## .github/
 
 - `copilot-instructions.md` (~352 tok)
@@ -29,6 +46,10 @@
 ## docs/
 
 - `schema-overview.md` — HR Schema Overview (~215 tok)
+
+## docs/superpowers/plans/
+
+- `2026-07-09-oracle-skills-implementation.md` — Oracle Skills Taxonomy Implementation Plan (PowerShell) (~7595 tok)
 
 ## docs/superpowers/specs/
 

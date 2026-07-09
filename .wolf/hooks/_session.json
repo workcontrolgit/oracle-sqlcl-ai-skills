@@ -1,47 +1,112 @@
 {
-  "session_id": "session-2026-07-09-1218",
-  "started": "2026-07-09T16:18:28.974Z",
+  "session_id": "session-2026-07-09-1354",
+  "started": "2026-07-09T17:54:36.425Z",
   "files_read": {
-    "c:/apps/oracle/.wolf/OPENWOLF.md": {
-      "count": 1,
-      "tokens": 0,
-      "first_read": "2026-07-09T16:18:45.847Z"
-    },
     "c:/apps/oracle/.wolf/cerebrum.md": {
       "count": 1,
       "tokens": 0,
-      "first_read": "2026-07-09T16:18:49.600Z"
+      "first_read": "2026-07-09T17:55:00.182Z"
     },
     "c:/apps/oracle/.wolf/anatomy.md": {
+      "count": 4,
+      "tokens": 0,
+      "first_read": "2026-07-09T17:55:00.262Z"
+    },
+    "c:/apps/oracle/.claude/skills/oracle-skills/tests/OracleConnection.Tests.ps1": {
+      "count": 1,
+      "tokens": 847,
+      "first_read": "2026-07-09T17:55:03.709Z"
+    },
+    "c:/apps/oracle/.claude/skills/oracle-skills/config/environments.json": {
+      "count": 2,
+      "tokens": 336,
+      "first_read": "2026-07-09T17:55:06.526Z"
+    },
+    "c:/apps/oracle/.claude/skills/oracle-skills/shared/OracleConnection.psm1": {
+      "count": 3,
+      "tokens": 2052,
+      "first_read": "2026-07-09T17:55:45.744Z"
+    },
+    "c:/apps/oracle/.wolf/buglog.json": {
       "count": 1,
       "tokens": 0,
-      "first_read": "2026-07-09T16:18:52.586Z"
+      "first_read": "2026-07-09T17:56:37.063Z"
     },
-    "c:/apps/oracle/README.md": {
+    "c:/apps/oracle/.wolf/memory.md": {
       "count": 1,
-      "tokens": 720,
-      "first_read": "2026-07-09T16:18:55.867Z"
-    },
-    "c:/apps/oracle/.github/prompts/oracle-query-helper.prompt.md": {
-      "count": 1,
-      "tokens": 434,
-      "first_read": "2026-07-09T16:19:00.247Z"
+      "tokens": 0,
+      "first_read": "2026-07-09T17:59:25.539Z"
     }
   },
   "files_written": [
     {
-      "file": "c:/apps/oracle/docs/superpowers/specs/2026-07-09-oracle-skills-taxonomy-design.md",
-      "action": "create",
-      "tokens": 2834,
-      "at": "2026-07-09T16:28:01.541Z"
+      "file": "c:/apps/oracle/.claude/skills/oracle-skills/tests/OracleConnection.Tests.ps1",
+      "action": "edit",
+      "tokens": 521,
+      "at": "2026-07-09T17:57:01.417Z"
+    },
+    {
+      "file": "c:/apps/oracle/.claude/skills/oracle-skills/tests/OracleConnection.Tests.ps1",
+      "action": "edit",
+      "tokens": 587,
+      "at": "2026-07-09T17:57:01.588Z"
+    },
+    {
+      "file": "c:/apps/oracle/.claude/skills/oracle-skills/tests/OracleConnection.Tests.ps1",
+      "action": "edit",
+      "tokens": 260,
+      "at": "2026-07-09T17:57:12.024Z"
+    },
+    {
+      "file": "c:/apps/oracle/.claude/skills/oracle-skills/tests/OracleConnection.Tests.ps1",
+      "action": "edit",
+      "tokens": 152,
+      "at": "2026-07-09T17:57:12.199Z"
+    },
+    {
+      "file": "c:/apps/oracle/.claude/skills/oracle-skills/tests/OracleConnection.Tests.ps1",
+      "action": "edit",
+      "tokens": 773,
+      "at": "2026-07-09T17:57:23.819Z"
+    },
+    {
+      "file": "c:/apps/oracle/.claude/skills/oracle-skills/shared/OracleConnection.psm1",
+      "action": "edit",
+      "tokens": 399,
+      "at": "2026-07-09T17:57:36.763Z"
+    },
+    {
+      "file": "c:/apps/oracle/.claude/skills/oracle-skills/shared/OracleConnection.psm1",
+      "action": "edit",
+      "tokens": 1109,
+      "at": "2026-07-09T17:57:55.410Z"
+    },
+    {
+      "file": "c:/apps/oracle/.claude/skills/oracle-skills/shared/OracleConnection.psm1",
+      "action": "edit",
+      "tokens": 322,
+      "at": "2026-07-09T17:58:04.547Z"
+    },
+    {
+      "file": "c:/apps/oracle/.claude/skills/oracle-skills/shared/OracleConnection.psm1",
+      "action": "edit",
+      "tokens": 242,
+      "at": "2026-07-09T17:58:11.255Z"
+    },
+    {
+      "file": "c:/apps/oracle/.claude/skills/oracle-skills/tests/OracleConnection.Tests.ps1",
+      "action": "edit",
+      "tokens": 668,
+      "at": "2026-07-09T17:59:01.111Z"
     }
   ],
   "edit_counts": {
-    "docs/superpowers/specs/2026-07-09-oracle-skills-taxonomy-design.md": 1
+    ".claude/skills/oracle-skills/tests/OracleConnection.Tests.ps1": 6,
+    ".claude/skills/oracle-skills/shared/OracleConnection.psm1": 4
   },
-  "anatomy_hits": 2,
+  "anatomy_hits": 3,
   "anatomy_misses": 3,
-  "repeated_reads_warned": 0,
+  "repeated_reads_warned": 6,
   "cerebrum_warnings": 0,
-  "stop_count": 10
+  "stop_count": 0
 }
