@@ -74,6 +74,7 @@ FETCH FIRST 1 ROW ONLY
 function Compare-Schemas {
     param([Parameter(Mandatory=$true)][hashtable]$CurrentSchema)
     try {
+        # UnexpectedTables placeholder for future enhancement - will detect tables not in expected baseline
         $diff = @{MissingTables = @(); MissingColumns = @(); MissingConstraints = @(); UnexpectedTables = @(); Status = "PASS"}
         $expectedTables = @("EMPLOYEES","DEPARTMENTS","JOBS","LOCATIONS","COUNTRIES","REGIONS")
         $expectedColumns = @{
@@ -99,14 +100,14 @@ function Compare-Schemas {
             }
         }
         foreach ($tableName in $expectedTables) {
-            if ($CurrentSchema.Constraints.ContainsKey($tableName)) {
-                $constraints = $CurrentSchema.Constraints[$tableName]
-                $pkExists = $constraints | Where-Object { $_.Type -eq "P" }
+            if ($CurrentSchema.Tables -contains $tableName) {
+                $pkExists = $null
+                if ($CurrentSchema.Constraints.ContainsKey($tableName)) {
+                    $pkExists = $CurrentSchema.Constraints[$tableName] | Where-Object { $_.Type -eq "P" }
+                }
                 if ($null -eq $pkExists) {
-                    if ($CurrentSchema.Tables -contains $tableName) {
-                        $diff.MissingConstraints += @{Table = $tableName; Constraint = "PK_$tableName"; Type = "PRIMARY_KEY"}
-                        $diff.Status = "DIFFERENCES_FOUND"
-                    }
+                    $diff.MissingConstraints += @{Table = $tableName; Constraint = "PK_$tableName"; Type = "PRIMARY_KEY"}
+                    $diff.Status = "DIFFERENCES_FOUND"
                 }
             }
         }
