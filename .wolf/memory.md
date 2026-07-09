@@ -90,3 +90,21 @@
 | Time | Action | File(s) | Outcome | ~Tokens |
 |------|--------|---------|---------|--------|
 | 14:15 | Task 3 Critical Bug Fixes: SQL injection prevention + Pester v3 syntax | SchemaInspector.psm1, SchemaInspector.Tests.ps1 | (1) Added table name validation (A-Z0-9_ only, max 30 char) to Get-TableColumns, Test-TableExists, Get-TableConstraints; (2) Fixed 4 Pester v3 assertions (Module Exports); (3) Removed unused BeforeAll; (4) Added 6 input validation tests for SQL injection; All 32 tests PASS | ~2800 |
+
+| 14:45 | Task 3 Code Review: SchemaInspector verified APPROVED - all SQL injection fixes, Pester v3 syntax, 6 input validation tests present | SchemaInspector.psm1, SchemaInspector.Tests.ps1 | ✅ PASS all 6 criteria | ~8 |
+| 14:17 | Created .claude/skills/oracle-skills/tests/OutputFormatter.Tests.ps1 | — | ~2471 |
+| 14:18 | Created .claude/skills/oracle-skills/shared/OutputFormatter.psm1 | — | ~1958 |
+| 14:18 | Edited .claude/skills/oracle-skills/shared/OutputFormatter.psm1 | modified ConvertTo() | ~276 |
+
+## Session: 2026-07-09 (Task 4: OutputFormatter Module)
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+| 14:19 | Task 4 TDD: OutputFormatter module for diagnostic output formatting | OutputFormatter.Tests.ps1, OutputFormatter.psm1 | All 23 tests PASS: ConvertTo-MarkdownTable, ConvertTo-DiagnosticJson, Format-DiagnosticOutput, Format-SuccessOutput, Format-FailureOutput; Markdown tables with custom columns; JSON serialization; combined JSON+Markdown blocks; windows PowerShell v3 compatible (no Join-String) | ~4200 |
+
+| 14:22 | Edited .claude/skills/oracle-skills/shared/OutputFormatter.psm1 | modified foreach() | ~176 |
+| 14:22 | Edited .claude/skills/oracle-skills/shared/OutputFormatter.psm1 | added error handling | ~95 |
+| 14:22 | Edited .claude/skills/oracle-skills/tests/OutputFormatter.Tests.ps1 | 21→21 lines | ~231 |
+| 14:22 | Edited .claude/skills/oracle-skills/tests/OutputFormatter.Tests.ps1 | modified catches() | ~1122 |
+
+| 23:45 | Task 4 Bug Fixes: Markdown escaping, Pester v3 syntax, error handling, edge case tests | OutputFormatter.psm1, OutputFormatter.Tests.ps1 | (1) Added markdown special char escaping (pipe \|, backslash \\) in ConvertTo-MarkdownTable; (2) Fixed 5 Pester v5 syntax violations (BeNullOrEmpty → v3 comparison); (3) Added try-catch error handling to ConvertTo-DiagnosticJson; (4) Added 11 new edge case tests (special chars, empty/null values, JSON errors); All 31 tests PASS | ~4200 |

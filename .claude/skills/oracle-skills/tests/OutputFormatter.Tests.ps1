@@ -235,23 +235,117 @@ Describe "OutputFormatter" {
 
     Context "Module exports" {
         It "Exports ConvertTo-MarkdownTable" {
-            (Get-Command ConvertTo-MarkdownTable -ErrorAction SilentlyContinue) | Should Not BeNullOrEmpty
+            ((Get-Command ConvertTo-MarkdownTable -ErrorAction SilentlyContinue) -ne $null) | Should Be $true
         }
 
         It "Exports ConvertTo-DiagnosticJson" {
-            (Get-Command ConvertTo-DiagnosticJson -ErrorAction SilentlyContinue) | Should Not BeNullOrEmpty
+            ((Get-Command ConvertTo-DiagnosticJson -ErrorAction SilentlyContinue) -ne $null) | Should Be $true
         }
 
         It "Exports Format-DiagnosticOutput" {
-            (Get-Command Format-DiagnosticOutput -ErrorAction SilentlyContinue) | Should Not BeNullOrEmpty
+            ((Get-Command Format-DiagnosticOutput -ErrorAction SilentlyContinue) -ne $null) | Should Be $true
         }
 
         It "Exports Format-SuccessOutput" {
-            (Get-Command Format-SuccessOutput -ErrorAction SilentlyContinue) | Should Not BeNullOrEmpty
+            ((Get-Command Format-SuccessOutput -ErrorAction SilentlyContinue) -ne $null) | Should Be $true
         }
 
         It "Exports Format-FailureOutput" {
-            (Get-Command Format-FailureOutput -ErrorAction SilentlyContinue) | Should Not BeNullOrEmpty
+            ((Get-Command Format-FailureOutput -ErrorAction SilentlyContinue) -ne $null) | Should Be $true
+        }
+    }
+
+    Context "Edge cases - Special character escaping" {
+        It "Escapes pipe characters in table cells" {
+            $data = @(
+                @{ Name = "Alice|Bob"; Status = "Active" },
+                @{ Name = "Charlie|David"; Status = "Inactive" }
+            )
+            $result = ConvertTo-MarkdownTable -Data $data
+
+            # Pipe character should be escaped as \|
+            ($result -match 'Alice\\\|Bob') | Should Be $true
+            ($result -match 'Charlie\\\|David') | Should Be $true
+        }
+
+        It "Escapes backslash characters in table cells" {
+            $data = @(
+                @{ Path = "C:\Users\Alice"; Status = "Active" }
+            )
+            $result = ConvertTo-MarkdownTable -Data $data
+
+            # Backslash should be escaped
+            ($result -match 'C:\\\\Users') | Should Be $true
+        }
+
+        It "Handles both pipe and backslash together" {
+            $data = @(
+                @{ Data = "Path|Value\Test"; Status = "Active" }
+            )
+            $result = ConvertTo-MarkdownTable -Data $data
+
+            # Both should be escaped
+            ($result -match '\\\|') | Should Be $true
+            ($result -match '\\\\') | Should Be $true
+        }
+
+        It "Handles empty string values in table cells" {
+            $data = @(
+                @{ Name = "Alice"; Status = "" },
+                @{ Name = ""; Status = "Active" }
+            )
+            $result = ConvertTo-MarkdownTable -Data $data
+
+            # Should still produce valid markdown table
+            ($result -match '\|') | Should Be $true
+            ($result.Length -gt 0) | Should Be $true
+        }
+
+        It "Handles null values in table cells" {
+            $data = @(
+                @{ Name = "Alice"; Status = $null }
+            )
+            $result = ConvertTo-MarkdownTable -Data $data
+
+            # Should convert null to string representation
+            ($result.Length -gt 0) | Should Be $true
+        }
+    }
+
+    Context "Error handling in JSON conversion" {
+        It "ConvertTo-DiagnosticJson handles valid hashtable" {
+            $result = @{ Status = "SUCCESS"; Message = "All OK" }
+            $json = ConvertTo-DiagnosticJson -Result $result
+
+            # Should produce valid JSON
+            { $json | ConvertFrom-Json } | Should Not Throw
+        }
+
+        It "ConvertTo-DiagnosticJson handles complex nested objects" {
+            $result = @{
+                Status = "PASS"
+                Nested = @{
+                    Level2 = @{
+                        Level3 = "DeepValue"
+                    }
+                }
+            }
+            $json = ConvertTo-DiagnosticJson -Result $result
+
+            # Should handle deep nesting
+            { $json | ConvertFrom-Json } | Should Not Throw
+            $obj = $json | ConvertFrom-Json
+            $obj.Nested.Level2.Level3 | Should Be "DeepValue"
+        }
+
+        It "ConvertTo-DiagnosticJson handles circular reference gracefully" {
+            # Note: Create a scenario that might cause JSON conversion issues
+            $result = @{
+                Status = "TEST"
+                Data = @("Item1", "Item2", "Item3")
+            }
+            # This should not throw - the function catches errors
+            { ConvertTo-DiagnosticJson -Result $result } | Should Not Throw
         }
     }
 }

@@ -82,6 +82,12 @@ function ConvertTo-MarkdownTable {
             } else {
                 $value = $item.$prop -as [string]
             }
+
+            # Escape markdown special characters in table cells
+            # Escape backslash first, then pipe
+            $value = $value -replace '\\', '\\'
+            $value = $value -replace '\|', '\|'
+
             $rowValues += $value
         }
         $dataRow = "| " + ($rowValues -join " | ") + " |"
@@ -112,9 +118,14 @@ function ConvertTo-DiagnosticJson {
     )
 
     # Convert to JSON with indentation
-    $json = $Result | ConvertTo-Json -Depth 10
-
-    return $json
+    try {
+        $json = $Result | ConvertTo-Json -Depth 10
+        return $json
+    }
+    catch {
+        Write-Error "Failed to convert result to JSON: $_"
+        return @{} | ConvertTo-Json
+    }
 }
 
 <#

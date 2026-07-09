@@ -1,192 +1,330 @@
 {
-  "version": 1,
-  "bugs": [
-    {
-      "id": "bug-001",
-      "timestamp": "2026-07-09T17:57:01.590Z",
-      "error_message": "Significant refactor of ",
-      "file": ".claude/skills/oracle-skills/tests/OracleConnection.Tests.ps1",
-      "root_cause": "2 lines replaced/restructured",
-      "fix": "Rewrote 11→40 lines (2 removed)",
-      "tags": [
-        "auto-detected",
-        "refactor",
-        "ps1"
-      ],
-      "related_bugs": [],
-      "occurrences": 1,
-      "last_seen": "2026-07-09T17:57:01.590Z"
-    },
-    {
-      "id": "bug-002",
-      "timestamp": "2026-07-09T17:57:55.412Z",
-      "error_message": "Significant refactor of ",
-      "file": ".claude/skills/oracle-skills/shared/OracleConnection.psm1",
-      "root_cause": "7 lines replaced/restructured",
-      "fix": "Rewrote 82→120 lines (7 removed)",
-      "tags": [
-        "auto-detected",
-        "refactor",
-        "psm1"
-      ],
-      "related_bugs": [],
-      "occurrences": 1,
-      "last_seen": "2026-07-09T17:57:55.412Z"
-    },
-    {
-      "id": "bug-003",
-      "timestamp": "2026-07-09T18:02:25.420Z",
-      "error_message": "Significant refactor of ",
-      "file": ".claude/skills/oracle-skills/tests/OracleConnection.Tests.ps1",
-      "root_cause": "3 lines replaced/restructured",
-      "fix": "Rewrote 10→8 lines (3 removed) | Also: # Use invalid environment or query to trigger real; # Function should not hide the error",
-      "tags": [
-        "auto-detected",
-        "refactor",
-        "ps1"
-      ],
-      "related_bugs": [],
-      "occurrences": 2,
-      "last_seen": "2026-07-09T18:03:41.764Z"
-    },
-    {
-      "id": "bug-004",
-      "timestamp": "2026-07-09T18:25:00.000Z",
-      "error_message": "Single quote escaping not implemented - code comment says to escape but never actually escapes single quotes",
-      "file": ".claude/skills/oracle-skills/shared/OracleConnection.psm1",
-      "root_cause": "Line 102: $queryValidated = $Query without -replace operation to escape ' with ''",
-      "fix": "Changed line 102 from '$queryValidated = $Query' to '$queryValidated = $Query -replace \"'\", \"''\"' per Oracle SQL injection prevention standard",
-      "tags": [
-        "critical",
-        "security",
-        "sql-injection",
-        "psm1"
-      ],
-      "related_bugs": [],
-      "occurrences": 1,
-      "last_seen": "2026-07-09T18:25:00.000Z"
-    },
-    {
-      "id": "bug-005",
-      "timestamp": "2026-07-09T18:25:15.000Z",
-      "error_message": "JSON format case uses wrong parser - ConvertFrom-Csv with pipe delimiter instead of ConvertFrom-Json",
-      "file": ".claude/skills/oracle-skills/shared/OracleConnection.psm1",
-      "root_cause": "Lines 136-145: JSON output format incorrectly uses 'ConvertFrom-Csv -Delimiter \"|\"' instead of 'ConvertFrom-Json'",
-      "fix": "Changed line 140 from 'ConvertFrom-Csv -Delimiter \"|\"' to 'ConvertFrom-Json' - JSON data must use JSON parser, not CSV parser",
-      "tags": [
-        "critical",
-        "data-parsing",
-        "json",
-        "psm1"
-      ],
-      "related_bugs": [],
-      "occurrences": 1,
-      "last_seen": "2026-07-09T18:25:15.000Z"
-    },
-    {
-      "id": "bug-006",
-      "timestamp": "2026-07-09T18:25:30.000Z",
-      "error_message": "Weak error handling test - uses -ErrorAction SilentlyContinue which suppresses errors being tested, and has placeholder assertion",
-      "file": ".claude/skills/oracle-skills/tests/OracleConnection.Tests.ps1",
-      "root_cause": "Lines 181-189: Test used -ErrorAction SilentlyContinue (defeating error propagation test purpose) and placeholder assertion '$true | Should Be $true'",
-      "fix": "Removed -ErrorAction SilentlyContinue, replaced placeholder with proper assertion checking error count increased and result is null",
-      "tags": [
-        "high",
-        "error-handling",
-        "testing",
-        "ps1"
-      ],
-      "related_bugs": [],
-      "occurrences": 1,
-      "last_seen": "2026-07-09T18:25:30.000Z"
-    },
-    {
-      "id": "bug-007",
-      "timestamp": "2026-07-09T18:12:39.529Z",
-      "error_message": "Significant refactor of ",
-      "file": ".claude/skills/oracle-skills/tests/SchemaInspector.Tests.ps1",
-      "root_cause": "12 lines replaced/restructured",
-      "fix": "Rewrote 16→3 lines (12 removed)",
-      "tags": [
-        "auto-detected",
-        "refactor",
-        "ps1"
-      ],
-      "related_bugs": [],
-      "occurrences": 1,
-      "last_seen": "2026-07-09T18:12:39.530Z"
-    },
-    {
-      "id": "bug-008",
-      "timestamp": "2026-07-09T18:30:00.000Z",
-      "error_message": "CRITICAL: SQL Injection vector - table names directly interpolated into SQL WHERE clauses without validation",
-      "file": ".claude/skills/oracle-skills/shared/SchemaInspector.psm1",
-      "root_cause": "Lines 81, 128, 183: Table names in Get-TableColumns, Test-TableExists, Get-TableConstraints interpolated directly into queries without validation: WHERE table_name = '$tableNameUpper'",
-      "fix": "Added regex validation at start of each function: if ($TableName -notmatch '^[A-Z0-9_]{1,30}$') { throw 'Invalid table name...' } before uppercase conversion and SQL query construction",
-      "tags": [
-        "critical",
-        "security",
-        "sql-injection",
-        "psm1",
-        "task-3"
-      ],
-      "related_bugs": [],
-      "occurrences": 1,
-      "last_seen": "2026-07-09T18:30:00.000Z"
-    },
-    {
-      "id": "bug-009",
-      "timestamp": "2026-07-09T18:30:15.000Z",
-      "error_message": "CRITICAL: Pester v3 syntax violation - 4 test assertions use Pester v5 '-BeNullOrEmpty' syntax not supported in v3",
-      "file": ".claude/skills/oracle-skills/tests/SchemaInspector.Tests.ps1",
-      "root_cause": "Lines 179, 183, 187, 191 in Module Exports context: 'Should Not BeNullOrEmpty' is Pester v5 syntax; v3 requires comparison operators",
-      "fix": "Changed from '... | Should Not BeNullOrEmpty' to '(Get-Command ...) -ne $null | Should Be $true' for all 4 assertions using v3-compatible equality comparison",
-      "tags": [
-        "critical",
-        "testing",
-        "pester-v3",
-        "ps1",
-        "task-3"
-      ],
-      "related_bugs": [],
-      "occurrences": 1,
-      "last_seen": "2026-07-09T18:30:15.000Z"
-    },
-    {
-      "id": "bug-010",
-      "timestamp": "2026-07-09T18:30:30.000Z",
-      "error_message": "MEDIUM: Unused BeforeAll block sets mock environment variables that tests don't use",
-      "file": ".claude/skills/oracle-skills/tests/SchemaInspector.Tests.ps1",
-      "root_cause": "Lines 11-22: BeforeAll sets ORACLE_HR_PASSWORD and staging/prod variables but all tests hardcode -Environment local; variables never referenced",
-      "fix": "Removed entire BeforeAll block (lines 11-22 deleted) - tests don't use environment variable setup; cleaner test structure",
-      "tags": [
-        "medium",
-        "code-quality",
-        "testing",
-        "ps1",
-        "task-3"
-      ],
-      "related_bugs": [],
-      "occurrences": 1,
-      "last_seen": "2026-07-09T18:30:30.000Z"
-    },
-    {
-      "id": "bug-011",
-      "timestamp": "2026-07-09T18:30:45.000Z",
-      "error_message": "MEDIUM: Missing input validation tests for SQL injection prevention in SchemaInspector",
-      "file": ".claude/skills/oracle-skills/tests/SchemaInspector.Tests.ps1",
-      "root_cause": "No test coverage for invalid table name handling; unable to verify SQL injection prevention working",
-      "fix": "Added new Input Validation context with 6 test cases: SQL characters, spaces, >30 chars, valid names (A-Z0-9_), and validation in Test-TableExists/Get-TableConstraints; all tests pass",
-      "tags": [
-        "medium",
-        "testing",
-        "sql-injection",
-        "ps1",
-        "task-3"
-      ],
-      "related_bugs": [],
-      "occurrences": 1,
-      "last_seen": "2026-07-09T18:30:45.000Z"
-    }
-  ]
+    "version":  1,
+    "bugs":  [
+                 {
+                     "id":  "bug-001",
+                     "timestamp":  "2026-07-09T17:57:01.590Z",
+                     "error_message":  "Significant refactor of ",
+                     "file":  ".claude/skills/oracle-skills/tests/OracleConnection.Tests.ps1",
+                     "root_cause":  "2 lines replaced/restructured",
+                     "fix":  "Rewrote 11→40 lines (2 removed)",
+                     "tags":  [
+                                  "auto-detected",
+                                  "refactor",
+                                  "ps1"
+                              ],
+                     "related_bugs":  [
+
+                                      ],
+                     "occurrences":  1,
+                     "last_seen":  "2026-07-09T17:57:01.590Z"
+                 },
+                 {
+                     "id":  "bug-002",
+                     "timestamp":  "2026-07-09T17:57:55.412Z",
+                     "error_message":  "Significant refactor of ",
+                     "file":  ".claude/skills/oracle-skills/shared/OracleConnection.psm1",
+                     "root_cause":  "7 lines replaced/restructured",
+                     "fix":  "Rewrote 82→120 lines (7 removed)",
+                     "tags":  [
+                                  "auto-detected",
+                                  "refactor",
+                                  "psm1"
+                              ],
+                     "related_bugs":  [
+
+                                      ],
+                     "occurrences":  1,
+                     "last_seen":  "2026-07-09T17:57:55.412Z"
+                 },
+                 {
+                     "id":  "bug-003",
+                     "timestamp":  "2026-07-09T18:02:25.420Z",
+                     "error_message":  "Significant refactor of ",
+                     "file":  ".claude/skills/oracle-skills/tests/OracleConnection.Tests.ps1",
+                     "root_cause":  "3 lines replaced/restructured",
+                     "fix":  "Rewrote 10→8 lines (3 removed) | Also: # Use invalid environment or query to trigger real; # Function should not hide the error",
+                     "tags":  [
+                                  "auto-detected",
+                                  "refactor",
+                                  "ps1"
+                              ],
+                     "related_bugs":  [
+
+                                      ],
+                     "occurrences":  2,
+                     "last_seen":  "2026-07-09T18:03:41.764Z"
+                 },
+                 {
+                     "id":  "bug-004",
+                     "timestamp":  "2026-07-09T18:25:00.000Z",
+                     "error_message":  "Single quote escaping not implemented - code comment says to escape but never actually escapes single quotes",
+                     "file":  ".claude/skills/oracle-skills/shared/OracleConnection.psm1",
+                     "root_cause":  "Line 102: $queryValidated = $Query without -replace operation to escape \u0027 with \u0027\u0027",
+                     "fix":  "Changed line 102 from \u0027$queryValidated = $Query\u0027 to \u0027$queryValidated = $Query -replace \"\u0027\", \"\u0027\u0027\"\u0027 per Oracle SQL injection prevention standard",
+                     "tags":  [
+                                  "critical",
+                                  "security",
+                                  "sql-injection",
+                                  "psm1"
+                              ],
+                     "related_bugs":  [
+
+                                      ],
+                     "occurrences":  1,
+                     "last_seen":  "2026-07-09T18:25:00.000Z"
+                 },
+                 {
+                     "id":  "bug-005",
+                     "timestamp":  "2026-07-09T18:25:15.000Z",
+                     "error_message":  "JSON format case uses wrong parser - ConvertFrom-Csv with pipe delimiter instead of ConvertFrom-Json",
+                     "file":  ".claude/skills/oracle-skills/shared/OracleConnection.psm1",
+                     "root_cause":  "Lines 136-145: JSON output format incorrectly uses \u0027ConvertFrom-Csv -Delimiter \"|\"\u0027 instead of \u0027ConvertFrom-Json\u0027",
+                     "fix":  "Changed line 140 from \u0027ConvertFrom-Csv -Delimiter \"|\"\u0027 to \u0027ConvertFrom-Json\u0027 - JSON data must use JSON parser, not CSV parser",
+                     "tags":  [
+                                  "critical",
+                                  "data-parsing",
+                                  "json",
+                                  "psm1"
+                              ],
+                     "related_bugs":  [
+
+                                      ],
+                     "occurrences":  1,
+                     "last_seen":  "2026-07-09T18:25:15.000Z"
+                 },
+                 {
+                     "id":  "bug-006",
+                     "timestamp":  "2026-07-09T18:25:30.000Z",
+                     "error_message":  "Weak error handling test - uses -ErrorAction SilentlyContinue which suppresses errors being tested, and has placeholder assertion",
+                     "file":  ".claude/skills/oracle-skills/tests/OracleConnection.Tests.ps1",
+                     "root_cause":  "Lines 181-189: Test used -ErrorAction SilentlyContinue (defeating error propagation test purpose) and placeholder assertion \u0027$true | Should Be $true\u0027",
+                     "fix":  "Removed -ErrorAction SilentlyContinue, replaced placeholder with proper assertion checking error count increased and result is null",
+                     "tags":  [
+                                  "high",
+                                  "error-handling",
+                                  "testing",
+                                  "ps1"
+                              ],
+                     "related_bugs":  [
+
+                                      ],
+                     "occurrences":  1,
+                     "last_seen":  "2026-07-09T18:25:30.000Z"
+                 },
+                 {
+                     "id":  "bug-007",
+                     "timestamp":  "2026-07-09T18:12:39.529Z",
+                     "error_message":  "Significant refactor of ",
+                     "file":  ".claude/skills/oracle-skills/tests/SchemaInspector.Tests.ps1",
+                     "root_cause":  "12 lines replaced/restructured",
+                     "fix":  "Rewrote 16→3 lines (12 removed)",
+                     "tags":  [
+                                  "auto-detected",
+                                  "refactor",
+                                  "ps1"
+                              ],
+                     "related_bugs":  [
+
+                                      ],
+                     "occurrences":  1,
+                     "last_seen":  "2026-07-09T18:12:39.530Z"
+                 },
+                 {
+                     "id":  "bug-008",
+                     "timestamp":  "2026-07-09T18:30:00.000Z",
+                     "error_message":  "CRITICAL: SQL Injection vector - table names directly interpolated into SQL WHERE clauses without validation",
+                     "file":  ".claude/skills/oracle-skills/shared/SchemaInspector.psm1",
+                     "root_cause":  "Lines 81, 128, 183: Table names in Get-TableColumns, Test-TableExists, Get-TableConstraints interpolated directly into queries without validation: WHERE table_name = \u0027$tableNameUpper\u0027",
+                     "fix":  "Added regex validation at start of each function: if ($TableName -notmatch \u0027^[A-Z0-9_]{1,30}$\u0027) { throw \u0027Invalid table name...\u0027 } before uppercase conversion and SQL query construction",
+                     "tags":  [
+                                  "critical",
+                                  "security",
+                                  "sql-injection",
+                                  "psm1",
+                                  "task-3"
+                              ],
+                     "related_bugs":  [
+
+                                      ],
+                     "occurrences":  1,
+                     "last_seen":  "2026-07-09T18:30:00.000Z"
+                 },
+                 {
+                     "id":  "bug-009",
+                     "timestamp":  "2026-07-09T18:30:15.000Z",
+                     "error_message":  "CRITICAL: Pester v3 syntax violation - 4 test assertions use Pester v5 \u0027-BeNullOrEmpty\u0027 syntax not supported in v3",
+                     "file":  ".claude/skills/oracle-skills/tests/SchemaInspector.Tests.ps1",
+                     "root_cause":  "Lines 179, 183, 187, 191 in Module Exports context: \u0027Should Not BeNullOrEmpty\u0027 is Pester v5 syntax; v3 requires comparison operators",
+                     "fix":  "Changed from \u0027... | Should Not BeNullOrEmpty\u0027 to \u0027(Get-Command ...) -ne $null | Should Be $true\u0027 for all 4 assertions using v3-compatible equality comparison",
+                     "tags":  [
+                                  "critical",
+                                  "testing",
+                                  "pester-v3",
+                                  "ps1",
+                                  "task-3"
+                              ],
+                     "related_bugs":  [
+
+                                      ],
+                     "occurrences":  1,
+                     "last_seen":  "2026-07-09T18:30:15.000Z"
+                 },
+                 {
+                     "id":  "bug-010",
+                     "timestamp":  "2026-07-09T18:30:30.000Z",
+                     "error_message":  "MEDIUM: Unused BeforeAll block sets mock environment variables that tests don\u0027t use",
+                     "file":  ".claude/skills/oracle-skills/tests/SchemaInspector.Tests.ps1",
+                     "root_cause":  "Lines 11-22: BeforeAll sets ORACLE_HR_PASSWORD and staging/prod variables but all tests hardcode -Environment local; variables never referenced",
+                     "fix":  "Removed entire BeforeAll block (lines 11-22 deleted) - tests don\u0027t use environment variable setup; cleaner test structure",
+                     "tags":  [
+                                  "medium",
+                                  "code-quality",
+                                  "testing",
+                                  "ps1",
+                                  "task-3"
+                              ],
+                     "related_bugs":  [
+
+                                      ],
+                     "occurrences":  1,
+                     "last_seen":  "2026-07-09T18:30:30.000Z"
+                 },
+                 {
+                     "id":  "bug-011",
+                     "timestamp":  "2026-07-09T18:30:45.000Z",
+                     "error_message":  "MEDIUM: Missing input validation tests for SQL injection prevention in SchemaInspector",
+                     "file":  ".claude/skills/oracle-skills/tests/SchemaInspector.Tests.ps1",
+                     "root_cause":  "No test coverage for invalid table name handling; unable to verify SQL injection prevention working",
+                     "fix":  "Added new Input Validation context with 6 test cases: SQL characters, spaces, \u003e30 chars, valid names (A-Z0-9_), and validation in Test-TableExists/Get-TableConstraints; all tests pass",
+                     "tags":  [
+                                  "medium",
+                                  "testing",
+                                  "sql-injection",
+                                  "ps1",
+                                  "task-3"
+                              ],
+                     "related_bugs":  [
+
+                                      ],
+                     "occurrences":  1,
+                     "last_seen":  "2026-07-09T18:30:45.000Z"
+                 },
+                 {
+                     "id":  "bug-012",
+                     "timestamp":  "2026-07-09T18:22:07.881Z",
+                     "error_message":  "Missing error handling in ConvertTo",
+                     "file":  ".claude/skills/oracle-skills/shared/OutputFormatter.psm1",
+                     "root_cause":  "Code path had no error handling — exceptions would propagate uncaught",
+                     "fix":  "Added try/catch block",
+                     "tags":  [
+                                  "auto-detected",
+                                  "error-handling",
+                                  "psm1"
+                              ],
+                     "related_bugs":  [
+
+                                      ],
+                     "occurrences":  1,
+                     "last_seen":  "2026-07-09T18:22:07.881Z"
+                 },
+                 {
+                     "id":  "bug-013",
+                     "timestamp":  "2026-07-09T18:22:32.169Z",
+                     "error_message":  "Missing error handling in catches",
+                     "file":  ".claude/skills/oracle-skills/tests/OutputFormatter.Tests.ps1",
+                     "root_cause":  "Code path had no error handling — exceptions would propagate uncaught",
+                     "fix":  "Added try/catch block",
+                     "tags":  [
+                                  "auto-detected",
+                                  "error-handling",
+                                  "ps1"
+                              ],
+                     "related_bugs":  [
+
+                                      ],
+                     "occurrences":  1,
+                     "last_seen":  "2026-07-09T18:22:32.169Z"
+                 },
+                 {
+                     "id":  "bug-012",
+                     "tags":  [
+                                  "critical",
+                                  "markdown",
+                                  "output-formatter",
+                                  "psm1",
+                                  "task-4"
+                              ],
+                     "root_cause":  "Lines 76-86: table cell values not escaped before building markdown rows",
+                     "occurrences":  1,
+                     "timestamp":  "2026-07-09T23:45:00.000Z",
+                     "related_bugs":  [
+
+                                      ],
+                     "last_seen":  "2026-07-09T23:45:00.000Z",
+                     "fix":  "Added character escaping for backslash and pipe characters before adding to rowValues",
+                     "error_message":  "CRITICAL: Markdown pipe characters (|) and backslashes (\\) in table data corrupt markdown table format",
+                     "file":  ".\\.\\.\\.\\.\\.claude\\skills\\oracle-skills\\shared\\OutputFormatter.psm1"
+                 },
+                 {
+                     "id":  "bug-013",
+                     "tags":  [
+                                  "high",
+                                  "testing",
+                                  "pester-v3",
+                                  "ps1",
+                                  "task-4"
+                              ],
+                     "root_cause":  "Lines 238, 242, 246, 250, 254: Should Not BeNullOrEmpty is Pester v5 syntax",
+                     "occurrences":  1,
+                     "timestamp":  "2026-07-09T23:45:15.000Z",
+                     "related_bugs":  [
+                                          "bug-009"
+                                      ],
+                     "last_seen":  "2026-07-09T23:45:15.000Z",
+                     "fix":  "Changed to (value -ne $null) | Should Be $true for v3 compatibility",
+                     "error_message":  "HIGH: Pester v3 syntax violation - 5 test assertions use Pester v5 -BeNullOrEmpty syntax",
+                     "file":  ".\\.\\.\\.\\.\\.claude\\skills\\oracle-skills\\tests\\OutputFormatter.Tests.ps1"
+                 },
+                 {
+                     "id":  "bug-014",
+                     "tags":  [
+                                  "medium",
+                                  "error-handling",
+                                  "json",
+                                  "psm1",
+                                  "task-4"
+                              ],
+                     "root_cause":  "ConvertTo-Json call not wrapped in try-catch",
+                     "occurrences":  1,
+                     "timestamp":  "2026-07-09T23:45:30.000Z",
+                     "related_bugs":  [
+
+                                      ],
+                     "last_seen":  "2026-07-09T23:45:30.000Z",
+                     "fix":  "Added try-catch block with error message and fallback empty JSON",
+                     "error_message":  "MEDIUM: ConvertTo-DiagnosticJson has no error handling",
+                     "file":  ".\\.\\.\\.\\.\\.claude\\skills\\oracle-skills\\shared\\OutputFormatter.psm1"
+                 },
+                 {
+                     "id":  "bug-015",
+                     "tags":  [
+                                  "medium",
+                                  "testing",
+                                  "edge-cases",
+                                  "ps1",
+                                  "task-4"
+                              ],
+                     "root_cause":  "No tests for special chars, empty/null values, or JSON error handling",
+                     "occurrences":  1,
+                     "timestamp":  "2026-07-09T23:45:45.000Z",
+                     "related_bugs":  [
+
+                                      ],
+                     "last_seen":  "2026-07-09T23:45:45.000Z",
+                     "fix":  "Added 11 new edge case tests covering pipe/backslash escaping, empty strings, nulls, and JSON error scenarios",
+                     "error_message":  "MEDIUM: Missing test coverage for markdown special character escaping and edge cases",
+                     "file":  ".\\.\\.\\.\\.\\.claude\\skills\\oracle-skills\\tests\\OutputFormatter.Tests.ps1"
+                 }
+             ]
 }
