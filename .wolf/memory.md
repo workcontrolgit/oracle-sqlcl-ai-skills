@@ -108,3 +108,9 @@
 | 14:22 | Edited .claude/skills/oracle-skills/tests/OutputFormatter.Tests.ps1 | modified catches() | ~1122 |
 
 | 23:45 | Task 4 Bug Fixes: Markdown escaping, Pester v3 syntax, error handling, edge case tests | OutputFormatter.psm1, OutputFormatter.Tests.ps1 | (1) Added markdown special char escaping (pipe \|, backslash \\) in ConvertTo-MarkdownTable; (2) Fixed 5 Pester v5 syntax violations (BeNullOrEmpty → v3 comparison); (3) Added try-catch error handling to ConvertTo-DiagnosticJson; (4) Added 11 new edge case tests (special chars, empty/null values, JSON errors); All 31 tests PASS | ~4200 |
+| 14:26 | Session end: 32 writes across 6 files (OracleConnection.Tests.ps1, OracleConnection.psm1, SchemaInspector.Tests.ps1, SchemaInspector.psm1, OutputFormatter.Tests.ps1) | 13 reads | ~42831 tok |
+
+## Session: 2026-07-09 16:06
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|

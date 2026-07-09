@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-07-09T18:12:47.500Z
-> Files: 22 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-07-09T18:22:32.159Z
+> Files: 24 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ./
 
@@ -30,11 +30,13 @@
 ## .claude/skills/oracle-skills/shared/
 
 - `OracleConnection.psm1` — Get: environment, environment, environment (~2054 tok)
+- `OutputFormatter.psm1` — Declares ConvertTo (~2053 tok)
 - `SchemaInspector.psm1` — Declares Get (~1677 tok)
 
 ## .claude/skills/oracle-skills/tests/
 
 - `OracleConnection.Tests.ps1` — Declares should (~2304 tok)
+- `OutputFormatter.Tests.ps1` (~3366 tok)
 - `SchemaInspector.Tests.ps1` (~2621 tok)
 
 ## .github/
@@ -69,3 +71,12 @@
 ## start-scripts/
 
 - `00-ensure-hr.sh` (~255 tok)
+
+## .claude/skills/oracle-skills/tier2/
+
+- `oracle-migration-status.ps1` — Query and display Oracle schema migration status (~310 tok)
+- `oracle-migration-status.md` — Skill documentation: purpose, parameters, output format (~390 tok)
+
+## .claude/skills/oracle-skills/tests/
+
+- `Tier2.Migration.Tests.ps1` — Pester tests for oracle-migration-status skill (~310 tok)
