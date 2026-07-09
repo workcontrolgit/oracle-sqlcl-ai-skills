@@ -32,3 +32,17 @@
 ## Decision Log
 
 <!-- Significant technical decisions with rationale. Why X was chosen over Y. -->
+
+## Task 5 Learnings
+
+- **Pester v3 Output Parameter:** Invoke-Pester in Pester v3 does not support -Output parameter; use -OutputFormat with values "LegacyNUnitXml" or "NUnitXml" only. Run without parameters for default display.
+- **oracle-migration-status Architecture:** Skill script queries migrations table via SchemaInspector's Test-TableExists + OracleConnection's Invoke-OracleQuery. Returns formatted JSON + markdown blocks via OutputFormatter.Format-SuccessOutput/Format-FailureOutput.
+- **Migration Status Detection:** Parse migration_status column for patterns: SUCCESS/APPLIED/COMPLETED for applied, FAIL/ERROR/FAILED for failures, PENDING/UNAPPLIED/WAITING for pending. Handle status inconsistencies across database versions.
+- **Skill vs Module Distinction:** Skill scripts are .ps1 files invoked directly (& script.ps1 params), not imported as modules. They can import shared modules but don't export functions.
+
+## Task 6 Learnings
+
+- **Schema Diff Architecture:** oracle-migration-diff queries current schema via SchemaInspector (Get-TableList, Get-TableColumns, Get-TableConstraints) and compares against baseline expected state. Identifies missing tables, columns, and constraints. Outputs JSON + markdown via OutputFormatter.
+- **Baseline Schema Approach:** Current implementation uses HR schema baseline (EMPLOYEES, DEPARTMENTS, JOBS, LOCATIONS, COUNTRIES, REGIONS tables). Can be enhanced to support migration metadata-driven expected state in future iterations.
+- **Migration Version Detection:** Query migrations table with WHERE migration_status IN ('SUCCESS','APPLIED','COMPLETED','1') to find latest applied version. Handle inconsistent status values across database versions.
+- **Schema Diff Output:** JSON includes counts of missing tables/columns/constraints; Details section contains arrays of diff objects (Table, Column/Constraint, Type fields). Status is "PASS" (no diffs) or "DIFFERENCES_FOUND" (diffs present).

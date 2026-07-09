@@ -122,3 +122,11 @@
 | Time | Action | File(s) | Outcome | ~Tokens |
 |------|--------|---------|---------|--------|
 | 16:20 | Implemented Task 6: oracle-migration-diff skill (TDD) | .claude/skills/oracle-skills/tier2/oracle-migration-diff.ps1, tests/Tier2.MigrationDiff.Tests.ps1, oracle-migration-diff.md | 12+ tests covering parameter validation, schema comparison, output format, exit codes, edge cases (custom tables, SQL injection prevention); skill compares current schema vs baseline HR schema; returns JSON+markdown diff report | ~8500 |
+| 16:23 | Edited .claude/skills/oracle-skills/tier2/oracle-migration-diff.ps1 | modified foreach() | ~162 |
+| 16:23 | Edited .claude/skills/oracle-skills/tier2/oracle-migration-diff.ps1 | modified Compare() | ~116 |
+| 16:26 | Task 6 Phase 2: Fixed constraint detection logic (Issue 1) + clarified UnexpectedTables placeholder (Issue 2) | oracle-migration-diff.ps1 | (1) Refactored PK detection to check ALL expected tables regardless of constraint dict entries; (2) Added comment explaining UnexpectedTables is future enhancement; 16/18 tests PASS, constraint detection test passes, 2 pre-existing failures unrelated; git commit cb0fdc1 | ~2100 |
+| 16:27 | Created .claude/skills/oracle-skills/tests/Tier2.SchemaConflict.Tests.ps1 | — | ~2086 |
+| 16:27 | Created .claude/skills/oracle-skills/tier2/oracle-schema-conflict-detect.ps1 | — | ~3200 |
+| 16:28 | Created .claude/skills/oracle-skills/tier2/oracle-schema-conflict-detect.md | — | ~1376 |
+| 16:28 | Edited .claude/skills/oracle-skills/tier2/oracle-schema-conflict-detect.ps1 | 8→9 lines | ~67 |
+| 16:29 | Edited .claude/skills/oracle-skills/tier2/oracle-schema-conflict-detect.ps1 | added 3 condition(s) | ~1088 |

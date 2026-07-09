@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-07-09T18:22:32.159Z
-> Files: 24 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-07-09T20:29:33.607Z
+> Files: 33 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ./
 
@@ -38,6 +38,18 @@
 - `OracleConnection.Tests.ps1` — Declares should (~2304 tok)
 - `OutputFormatter.Tests.ps1` (~3366 tok)
 - `SchemaInspector.Tests.ps1` (~2621 tok)
+- `Tier2.Migration.Tests.ps1` — Pester tests for oracle-migration-status skill (~310 tok)
+- `Tier2.MigrationDiff.Tests.ps1` — Pester tests for oracle-migration-diff skill (~170 tok)
+- `Tier2.SchemaConflict.Tests.ps1` (~2086 tok)
+
+## .claude/skills/oracle-skills/tier2/
+
+- `oracle-migration-diff.md` — Skill documentation: schema diff comparison logic (~380 tok)
+- `oracle-migration-diff.ps1` — Declares Get (~2091 tok)
+- `oracle-migration-status.md` — Skill documentation: purpose, parameters, output format (~390 tok)
+- `oracle-migration-status.ps1` — Query and display Oracle schema migration status (~310 tok)
+- `oracle-schema-conflict-detect.md` — oracle-schema-conflict-detect (~1290 tok)
+- `oracle-schema-conflict-detect.ps1` — Declares Get (~3568 tok)
 
 ## .github/
 
@@ -71,15 +83,3 @@
 ## start-scripts/
 
 - `00-ensure-hr.sh` (~255 tok)
-
-## .claude/skills/oracle-skills/tier2/
-
-- `oracle-migration-status.ps1` — Query and display Oracle schema migration status (~310 tok)
-- `oracle-migration-status.md` — Skill documentation: purpose, parameters, output format (~390 tok)
-- `oracle-migration-diff.ps1` — Compare current schema against expected migration target (~350 tok)
-- `oracle-migration-diff.md` — Skill documentation: schema diff comparison logic (~380 tok)
-
-## .claude/skills/oracle-skills/tests/
-
-- `Tier2.Migration.Tests.ps1` — Pester tests for oracle-migration-status skill (~310 tok)
-- `Tier2.MigrationDiff.Tests.ps1` — Pester tests for oracle-migration-diff skill (~170 tok)
