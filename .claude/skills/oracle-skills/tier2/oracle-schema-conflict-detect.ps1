@@ -209,6 +209,36 @@ function Compare-SchemaForConflicts {
             }
         }
 
+        # Check for missing: constraints in expected but not actual
+        foreach ($tableName in $ExpectedSchema.Constraints.Keys) {
+            if ($CurrentSchema.Constraints.ContainsKey($tableName)) {
+                $expectedConstraints = $ExpectedSchema.Constraints[$tableName]
+                $currentConstraints = $CurrentSchema.Constraints[$tableName] | ForEach-Object { $_.Name }
+                foreach ($constraint in $expectedConstraints) {
+                    if ($currentConstraints -notcontains $constraint) {
+                        $conflicts.Missing += @{
+                            Type = "CONSTRAINT"
+                            Table = $tableName
+                            Name = $constraint
+                            Status = "Missing from actual"
+                        }
+                        $conflicts.Status = "CONFLICTS_DETECTED"
+                    }
+                }
+            } else {
+                # Table doesn't exist, so all its constraints are missing
+                foreach ($constraint in $ExpectedSchema.Constraints[$tableName]) {
+                    $conflicts.Missing += @{
+                        Type = "CONSTRAINT"
+                        Table = $tableName
+                        Name = $constraint
+                        Status = "Missing from actual (table missing)"
+                    }
+                    $conflicts.Status = "CONFLICTS_DETECTED"
+                }
+            }
+        }
+
         return $conflicts
     } catch {
         Write-Error "Failed to compare schemas for conflicts: $_"
