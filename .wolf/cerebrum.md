@@ -40,9 +40,9 @@
 - **Migration Status Detection:** Parse migration_status column for patterns: SUCCESS/APPLIED/COMPLETED for applied, FAIL/ERROR/FAILED for failures, PENDING/UNAPPLIED/WAITING for pending. Handle status inconsistencies across database versions.
 - **Skill vs Module Distinction:** Skill scripts are .ps1 files invoked directly (& script.ps1 params), not imported as modules. They can import shared modules but don't export functions.
 
-## Task 6 Learnings
+## Task 7 Learnings
 
-- **Schema Diff Architecture:** oracle-migration-diff queries current schema via SchemaInspector (Get-TableList, Get-TableColumns, Get-TableConstraints) and compares against baseline expected state. Identifies missing tables, columns, and constraints. Outputs JSON + markdown via OutputFormatter.
-- **Baseline Schema Approach:** Current implementation uses HR schema baseline (EMPLOYEES, DEPARTMENTS, JOBS, LOCATIONS, COUNTRIES, REGIONS tables). Can be enhanced to support migration metadata-driven expected state in future iterations.
-- **Migration Version Detection:** Query migrations table with WHERE migration_status IN ('SUCCESS','APPLIED','COMPLETED','1') to find latest applied version. Handle inconsistent status values across database versions.
-- **Schema Diff Output:** JSON includes counts of missing tables/columns/constraints; Details section contains arrays of diff objects (Table, Column/Constraint, Type fields). Status is "PASS" (no diffs) or "DIFFERENCES_FOUND" (diffs present).
+- **Schema Conflict Detection Architecture:** oracle-schema-conflict-detect detects drift (objects in actual but not expected) and missing objects (objects expected but not actual). Uses Get-CurrentSchemaSnapshot + expected schema baseline comparison. Custom output formatting to preserve Status="CONFLICTS_DETECTED" instead of using Format-SuccessOutput/FailureOutput which hardcode "PASS"/"FAIL".
+- **Conflict Categorization:** Three types: Drift (extra objects in actual - manual changes), Missing (objects in expected but not actual - incomplete migrations), Unexpected (future enhancement). Conflicts include Type (TABLE/COLUMN/CONSTRAINT), Name, and Status description.
+- **Output Format Customization:** When skill needs custom Status values (like "CONFLICTS_DETECTED" vs "PASS"), build output directly using ConvertTo-DiagnosticJson + ConvertTo-MarkdownTable instead of Format-SuccessOutput/FailureOutput which override Status to "PASS"/"FAIL".
+- **MigrationsTable Validation with Parameter Attribute:** Use `[ValidatePattern('^[A-Z0-9_]{1,30}$')]` on script parameters for automatic validation before function execution - more elegant than manual validation inside functions.
