@@ -1,0 +1,76 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Docker: Oracle Up",
+			"type": "shell",
+			"command": "docker",
+			"args": [
+				"compose",
+				"up",
+				"-d"
+			],
+			"group": "build",
+			"problemMatcher": []
+		},
+		{
+			"label": "Docker: Oracle Down",
+			"type": "shell",
+			"command": "docker",
+			"args": [
+				"compose",
+				"down"
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "Docker: Oracle Reset",
+			"type": "shell",
+			"command": "docker",
+			"args": [
+				"compose",
+				"down",
+				"-v"
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "Docker: Oracle Logs",
+			"type": "shell",
+			"command": "docker",
+			"args": [
+				"compose",
+				"logs",
+				"-f",
+				"oracle"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Docker: HR Health Check",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"scripts/hr-health-check.ps1"
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "Docker: Oracle Up (Generated)",
+			"type": "shell",
+			"command": "docker",
+			"args": [
+				"compose",
+				"up",
+				"-d"
+			],
+			"problemMatcher": [],
+			"group": "build"
+		}
+	]
+}

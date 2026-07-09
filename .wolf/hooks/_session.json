@@ -1,0 +1,47 @@
+{
+  "session_id": "session-2026-07-09-1218",
+  "started": "2026-07-09T16:18:28.974Z",
+  "files_read": {
+    "c:/apps/oracle/.wolf/OPENWOLF.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-07-09T16:18:45.847Z"
+    },
+    "c:/apps/oracle/.wolf/cerebrum.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-07-09T16:18:49.600Z"
+    },
+    "c:/apps/oracle/.wolf/anatomy.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-07-09T16:18:52.586Z"
+    },
+    "c:/apps/oracle/README.md": {
+      "count": 1,
+      "tokens": 720,
+      "first_read": "2026-07-09T16:18:55.867Z"
+    },
+    "c:/apps/oracle/.github/prompts/oracle-query-helper.prompt.md": {
+      "count": 1,
+      "tokens": 434,
+      "first_read": "2026-07-09T16:19:00.247Z"
+    }
+  },
+  "files_written": [
+    {
+      "file": "c:/apps/oracle/docs/superpowers/specs/2026-07-09-oracle-skills-taxonomy-design.md",
+      "action": "create",
+      "tokens": 2834,
+      "at": "2026-07-09T16:28:01.541Z"
+    }
+  ],
+  "edit_counts": {
+    "docs/superpowers/specs/2026-07-09-oracle-skills-taxonomy-design.md": 1
+  },
+  "anatomy_hits": 2,
+  "anatomy_misses": 3,
+  "repeated_reads_warned": 0,
+  "cerebrum_warnings": 0,
+  "stop_count": 10
+}
