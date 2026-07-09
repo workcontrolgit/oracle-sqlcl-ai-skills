@@ -179,12 +179,14 @@ Describe "OracleConnection" {
 
     Context "Error Handling: No Error Suppression" {
         It "Invoke-OracleQuery should propagate actual errors" {
-            # Use invalid environment or query to trigger real error
-            # Function should not hide the error
-            $error.Clear()
-            Invoke-OracleQuery -Environment "local" -Query "INVALID SYNTAX HERE" -ErrorAction SilentlyContinue
-            # Error should have been written (not silently swallowed inside the function)
-            $true | Should Be $true  # Placeholder; real validation is in code review
+            # Use invalid command to trigger error in function
+            # Should return null when error occurs and error is not suppressed
+            $previousErrorCount = $error.Count
+            $result = Invoke-OracleQuery -Environment "local" -Query "INVALID SYNTAX HERE"
+            # Result should be null due to SQL injection protection
+            $result | Should Be $null
+            # Error should have been written (new error added to stack)
+            ($error.Count -gt $previousErrorCount) | Should Be $true
         }
     }
 

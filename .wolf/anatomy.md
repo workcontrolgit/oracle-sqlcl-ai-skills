@@ -1,6 +1,6 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-07-09T17:59:01.103Z
+> Auto-maintained by OpenWolf. Last scanned: 2026-07-09T18:03:56.585Z
 > Files: 20 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ./
@@ -29,11 +29,11 @@
 
 ## .claude/skills/oracle-skills/shared/
 
-- `OracleConnection.psm1` — Multi-env Oracle connection: config expansion, query execution (SQL injection validation, timeout, CSV/JSON parsing), connectivity test, version query (~2052 tok)
+- `OracleConnection.psm1` — Get: environment, environment, environment (~2054 tok)
 
 ## .claude/skills/oracle-skills/tests/
 
-- `OracleConnection.Tests.ps1` — Pester 27-test suite: env config (expansion, fail-fast), query (SQL injection, timeout, output format), connection (boolean result), version; security & error handling validation (~2279 tok)
+- `OracleConnection.Tests.ps1` — Declares should (~2304 tok)
 
 ## .github/
 

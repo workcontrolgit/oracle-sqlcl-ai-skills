@@ -61,3 +61,8 @@
 | Time | Action | File(s) | Outcome | ~Tokens |
 |------|--------|---------|---------|--------|
 | 17:52 | Task 2 Hardening: Security & Stability Fixes | OracleConnection.psm1, OracleConnection.Tests.ps1 | All 27 tests PASS: SQL injection (whitelist + multi-stmt), timeout (default 30s), error propagation (no SilentlyContinue), CSV delimiter explicit, env var fail-fast | ~3200 |
+| 14:02 | Edited .claude/skills/oracle-skills/shared/OracleConnection.psm1 | 3→3 lines | ~57 |
+| 14:02 | Edited .claude/skills/oracle-skills/shared/OracleConnection.psm1 | 11→11 lines | ~114 |
+| 14:02 | Edited .claude/skills/oracle-skills/tests/OracleConnection.Tests.ps1 | modified Clear() | ~101 |
+| 14:03 | Edited .claude/skills/oracle-skills/tests/OracleConnection.Tests.ps1 | Clear() → written() | ~174 |
+| 14:03 | Edited .claude/skills/oracle-skills/tests/OracleConnection.Tests.ps1 | 12→12 lines | ~176 |

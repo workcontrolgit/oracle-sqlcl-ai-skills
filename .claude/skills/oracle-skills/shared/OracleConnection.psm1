@@ -99,7 +99,7 @@ function Invoke-OracleQuery {
 
         # Escape single quotes by doubling them (Oracle standard)
         # Note: This is a supplementary check; parameterized queries preferred when available
-        $queryValidated = $Query
+        $queryValidated = $Query -replace "'", "''"
 
         $config = Get-EnvironmentConfig -Environment $Environment
 
@@ -137,7 +137,7 @@ EXIT;
                     # Validate JSON before parsing
                     $lines = $result | Where-Object { $_ -match "^\|" }
                     try {
-                        return $lines | ConvertFrom-Csv -Delimiter "|"
+                        return $lines | ConvertFrom-Json
                     }
                     catch {
                         Write-Error "Failed to parse JSON output: $_"
