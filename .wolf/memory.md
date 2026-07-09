@@ -143,3 +143,19 @@
 | 16:45 | Edited .claude/skills/oracle-skills/tier2/oracle-schema-reset.ps1 | expanded (+13 lines) | ~340 |
 | 16:45 | Edited .claude/skills/oracle-skills/tier2/oracle-schema-reset.ps1 | modified Get() | ~163 |
 | 16:46 | Edited .claude/skills/oracle-skills/tier2/oracle-schema-reset.md | modified scope() | ~171 |
+| 20:50 | Fixed Phase 2 Task 8: Preserve custom Status field in oracle-schema-reset output | oracle-schema-reset.ps1, oracle-schema-reset.md | (1) Replaced Format-SuccessOutput/FailureOutput with direct JSON+markdown formatting to preserve custom Status values (RESET_CANCELLED, SUCCESS, ERROR vs PASS/FAIL); (2) Simplified array normalization in Get-TableListForDrop (lines 71-84); (3) Clarified documentation - Phase 2 does not implement init scripts/seed data; All 21 tests PASS; git commit e0a6efe | ~5200 |
+| 20:52 | Re-review: Phase 2 Task 8 (oracle-schema-reset) - Code Quality APPROVED | oracle-schema-reset.ps1 | Status preservation verified (RESET_CANCELLED/SUCCESS/ERROR), all 21 Pester tests PASS, Format-SuccessOutput/FailureOutput removed, ConvertTo-DiagnosticJson + manual markdown blocks confirmed | ~12 |
+| 16:58 | Implemented oracle-user-permissions skill (Task 9) with privilege gap detection and grant recommendations | oracle-user-permissions.ps1, oracle-user-permissions.md, Tier2.UserPermissions.Tests.ps1 | Created skill + tests + docs, committed | ~2500 |
+
+## Session: 2026-07-09 17:02
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+| 17:07 | Created .claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.Tests.ps1 | — | ~2657 |
+| 17:07 | Created .claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.ps1 | — | ~3598 |
+| 17:08 | Created .claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.md | — | ~1571 |
+| 17:08 | Edited .claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.Tests.ps1 | inline fix | ~26 |
+| 17:08 | Edited .claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.ps1 | modified foreach() | ~256 |
+| 17:08 | Edited .claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.ps1 | modified foreach() | ~304 |
+| 17:09 | Edited .claude/skills/oracle-skills/tier3/oracle-schema-compare-environments.Tests.ps1 | 16→14 lines | ~211 |
+| 17:09 | Task 10 DONE: oracle-schema-compare-environments skill (schema comparison between environments) | oracle-schema-compare-environments.ps1, .Tests.ps1, .md | All 28 tests PASSING: parameter validation, schema comparison logic, JSON/markdown output format, exit codes, ComparisonType handling, diff categorization, error handling; Compare-EnvironmentSchemas and Get-EnvironmentSchemaSnapshot functions; custom Status values (SCHEMAS_MATCH/DIFFER/ERROR); git commit pending | ~95000 |
