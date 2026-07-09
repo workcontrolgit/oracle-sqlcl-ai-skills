@@ -66,24 +66,16 @@ function Get-TableListForDrop {
         Get list of all user tables to drop
     #>
     param([Parameter(Mandatory=$true)][string]$Environment)
-    
+
     try {
         $tables = Get-TableList -Environment $Environment
         if ($null -eq $tables) {
             return @()
         }
-        
-        if ($tables -isnot [object[]]) {
-            $tables = @($tables)
-        }
-        
-        $tableNames = $tables | Select-Object -ExpandProperty Name | Where-Object { -not [string]::IsNullOrEmpty($_) }
-        
-        # Ensure we always return an array
-        if ($tableNames -isnot [object[]]) {
-            $tableNames = @($tableNames)
-        }
-        
+
+        # Normalize to array and extract names in one pass
+        $tableNames = @(($tables | Select-Object -ExpandProperty Name | Where-Object { -not [string]::IsNullOrEmpty($_) }))
+
         return $tableNames
     }
     catch {
@@ -159,8 +151,21 @@ try {
                 InitScriptsApplied = 0
             }
         }
-        
-        Write-Output (Format-SuccessOutput -Result $result -Message "Schema reset cancelled - confirmation not provided")
+
+        # Format output directly (preserve custom Status value)
+        $jsonOutput = "``````json`n" + (ConvertTo-DiagnosticJson -Result $result) + "`n``````"
+        $markdownOutput = "``````markdown`n"
+        $markdownOutput += "- **Title**: $($result.Title)`n"
+        $markdownOutput += "- **Status**: $($result.Status)`n"
+        $markdownOutput += "- **Environment**: $($result.Environment)`n"
+        $markdownOutput += "- **TablesDropped**: $($result.TablesDropped)`n"
+        $markdownOutput += "- **TablesRecreated**: $($result.TablesRecreated)`n"
+        $markdownOutput += "- **DateResetAt**: $($result.DateResetAt)`n"
+        $markdownOutput += "- **ResetReason**: $($result.ResetReason)`n"
+        $markdownOutput += "`n**Message**: Schema reset cancelled - confirmation not provided`n"
+        $markdownOutput += "`n``````"
+
+        Write-Output ($jsonOutput + "`n`n" + $markdownOutput)
         exit 0
     }
     
@@ -192,8 +197,20 @@ try {
         }
     }
     
-    # Step 6: Format output and exit
-    Write-Output (Format-SuccessOutput -Result $result -Message "Schema reset completed successfully - $($droppedTables.Count) table(s) dropped")
+    # Step 6: Format output and exit (preserve custom Status value)
+    $jsonOutput = "``````json`n" + (ConvertTo-DiagnosticJson -Result $result) + "`n``````"
+    $markdownOutput = "``````markdown`n"
+    $markdownOutput += "- **Title**: $($result.Title)`n"
+    $markdownOutput += "- **Status**: $($result.Status)`n"
+    $markdownOutput += "- **Environment**: $($result.Environment)`n"
+    $markdownOutput += "- **TablesDropped**: $($result.TablesDropped)`n"
+    $markdownOutput += "- **TablesRecreated**: $($result.TablesRecreated)`n"
+    $markdownOutput += "- **DateResetAt**: $($result.DateResetAt)`n"
+    $markdownOutput += "- **ResetReason**: $($result.ResetReason)`n"
+    $markdownOutput += "`n**Message**: Schema reset completed successfully - $($result.TablesDropped) table(s) dropped`n"
+    $markdownOutput += "`n``````"
+
+    Write-Output ($jsonOutput + "`n`n" + $markdownOutput)
     exit 0
 }
 catch {
@@ -210,7 +227,20 @@ catch {
             ErrorContext = $_.Exception.GetType().Name
         }
     }
-    
-    Write-Output (Format-FailureOutput -Result $result -Message "Schema reset failed: $_")
+
+    # Format output directly (preserve custom Status value)
+    $jsonOutput = "``````json`n" + (ConvertTo-DiagnosticJson -Result $result) + "`n``````"
+    $markdownOutput = "``````markdown`n"
+    $markdownOutput += "- **Title**: $($result.Title)`n"
+    $markdownOutput += "- **Status**: $($result.Status)`n"
+    $markdownOutput += "- **Environment**: $($result.Environment)`n"
+    $markdownOutput += "- **TablesDropped**: $($result.TablesDropped)`n"
+    $markdownOutput += "- **TablesRecreated**: $($result.TablesRecreated)`n"
+    $markdownOutput += "- **DateResetAt**: $($result.DateResetAt)`n"
+    $markdownOutput += "- **ResetReason**: $($result.ResetReason)`n"
+    $markdownOutput += "`n**Message**: Schema reset failed: $_`n"
+    $markdownOutput += "`n``````"
+
+    Write-Output ($jsonOutput + "`n`n" + $markdownOutput)
     exit 1
 }

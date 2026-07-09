@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-07-09T20:33:19.898Z
-> Files: 33 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-07-09T20:46:03.454Z
+> Files: 38 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ./
 
@@ -41,6 +41,7 @@
 - `Tier2.Migration.Tests.ps1` — Pester tests for oracle-migration-status skill (~310 tok)
 - `Tier2.MigrationDiff.Tests.ps1` — Pester tests for oracle-migration-diff skill (~170 tok)
 - `Tier2.SchemaConflict.Tests.ps1` (~2086 tok)
+- `Tier2.SchemaReset.Tests.ps1` — Pester tests for oracle-schema-reset skill (~270 tok)
 
 ## .claude/skills/oracle-skills/tier2/
 
@@ -50,6 +51,8 @@
 - `oracle-migration-status.ps1` — Query and display Oracle schema migration status (~310 tok)
 - `oracle-schema-conflict-detect.md` — oracle-schema-conflict-detect (~1290 tok)
 - `oracle-schema-conflict-detect.ps1` — Declares Get (~3956 tok)
+- `oracle-schema-reset.md` — oracle-schema-reset Skill (~1595 tok)
+- `oracle-schema-reset.ps1` — Declares Test (~2340 tok)
 
 ## .github/
 
@@ -83,10 +86,5 @@
 ## start-scripts/
 
 - `00-ensure-hr.sh` (~255 tok)
-
-- `oracle-schema-reset.ps1` — Safely reset schema to known state (dev only), drop tables (~310 tok)
 - `oracle-schema-reset.md` — Skill documentation: security, parameters, usage (~400 tok)
-
-## .claude/skills/oracle-skills/tests/
-
-- `Tier2.SchemaReset.Tests.ps1` — Pester tests for oracle-schema-reset skill (~270 tok)
+- `oracle-schema-reset.ps1` — Safely reset schema to known state (dev only), drop tables (~310 tok)

@@ -138,3 +138,8 @@
 |------|--------|---------|---------|--------|
 | 20:35 | Task 7 Critical Bug Fix: Add missing constraint detection to conflict analysis | oracle-schema-conflict-detect.ps1 | Fixed asymmetrical logic: drift detection checked extra constraints but missing detection skipped them entirely. Added constraint checking to missing objects section (lines 212-240) following same pattern as missing column detection. Handles both table-exists and table-missing cases. git commit 298d1e9 | ~4800 |
 | 20:41 | Implement oracle-schema-reset skill - TDD approach, 21 tests passing, dev-only env, switch parameter, null array handling, PASS status from OutputFormatter | tier2/oracle-schema-reset.ps1, tests/Tier2.SchemaReset.Tests.ps1, tier2/oracle-schema-reset.md | SUCCESS - all tests pass, security enforced, output formats correct | ~150 |
+| 16:45 | Edited .claude/skills/oracle-skills/tier2/oracle-schema-reset.ps1 | modified if() | ~412 |
+| 16:45 | Edited .claude/skills/oracle-skills/tier2/oracle-schema-reset.ps1 | expanded (+12 lines) | ~240 |
+| 16:45 | Edited .claude/skills/oracle-skills/tier2/oracle-schema-reset.ps1 | expanded (+13 lines) | ~340 |
+| 16:45 | Edited .claude/skills/oracle-skills/tier2/oracle-schema-reset.ps1 | modified Get() | ~163 |
+| 16:46 | Edited .claude/skills/oracle-skills/tier2/oracle-schema-reset.md | modified scope() | ~171 |

@@ -177,9 +177,20 @@ Test coverage includes:
 2. Confirm no active development work depends on current schema
 3. Provide `-ConfirmReset` flag explicitly
 
+## Limitations (Phase 2)
+
+**Current scope (Phase 2):**
+- Drops all user tables only
+- No automatic re-application of init scripts
+- No automatic seed data restoration
+- No backup or snapshot functionality
+- No dry-run mode
+
+**Note:** The response includes `InitScriptsApplied: 0` and `SeedDataApplied: false` fields. These are placeholders for future enhancements. In Phase 2, these operations are NOT performed.
+
 ## Roadmap
 
-Future enhancements (not Phase 2):
+Future enhancements (Phase 3+):
 - Automatic backup before reset
 - Snapshot comparison before/after
 - Re-apply init scripts automatically
