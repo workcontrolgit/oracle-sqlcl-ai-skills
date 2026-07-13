@@ -123,13 +123,33 @@ C:\Users\<you>\.vscode\extensions\oracle.sql-developer-<version>-win32-x64\dbtoo
 1. **Save the HR connection** in SQLcl so the MCP server can connect automatically:
 
    ```powershell
-   & "<path-to-sql.exe>" hr/HrUser_2026@//localhost:1521/XEPDB1
-   # Inside SQLcl prompt:
-   conn -save hr_local -savepwd hr/HrUser_2026@//localhost:1521/XEPDB1
-   exit
+   $SQLCL = "C:\Users\<you>\.vscode\extensions\oracle.sql-developer-<version>-win32-x64\dbtools\sqlcl\bin\sql.exe"
+   "conn -save hr_local -savepwd hr/HrUser_2026@//localhost:1521/XEPDB1`nexit" | & $SQLCL /nolog
    ```
 
-2. **MCP server config** is already in `.claude/mcp.json` — Claude Code picks it up automatically.
+   Verify it works:
+
+   ```powershell
+   "conn -name hr_local`nSELECT user FROM dual;`nexit" | & $SQLCL /nolog
+   ```
+
+2. **MCP server config** is already in `.mcp.json` at the project root — Claude Code picks it up automatically on next session start.
+
+   > **Note:** `.mcp.json` is the project-scoped MCP config (checked into git, shared with the team). Claude Code reads this file at startup. If the server doesn't appear in `/mcp`, reload the VS Code window (`Ctrl+Shift+P` → *Developer: Reload Window*) and approve the server trust prompt when asked.
+
+   The SQLcl executable path in `.mcp.json` must match your local installation. Update it if your VS Code extension version differs:
+
+   ```json
+   {
+     "mcpServers": {
+       "sqlcl": {
+         "type": "stdio",
+         "command": "C:\\Users\\<you>\\.vscode\\extensions\\oracle.sql-developer-<version>-win32-x64\\dbtools\\sqlcl\\bin\\sql.exe",
+         "args": ["-mcp"]
+       }
+     }
+   }
+   ```
 
 ### Claude AI Skills
 
