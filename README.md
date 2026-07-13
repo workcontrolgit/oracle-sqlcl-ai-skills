@@ -1,6 +1,6 @@
-# Docker Oracle HR Schema
+# Oracle SQLcl Skills
 
-This workspace provides a local Oracle XE database in Docker with an initialized HR schema and sample data.
+Claude AI skills for working with Oracle databases via the SQLcl MCP server. Includes a local Oracle XE HR schema in Docker for development and testing.
 
 ## Prerequisites
 
