@@ -145,6 +145,7 @@ The `.claude/skills/` folder contains Claude AI skills that use the MCP tools ab
 | `oracle-table-constraints` | `connect`, `run-sql`, `disconnect` | View PK/FK/check constraints |
 | `oracle-table-indexes` | `connect`, `run-sql`, `disconnect` | View indexes and indexed columns |
 | `oracle-table-relationships` | `connect`, `run-sql`, `disconnect` | Explore foreign key relationships |
+| `oracle-export` | Bash → SQLcl directly | Export query results to CSV or Excel file |
 
 > **Note:** `oracle-hr-query` was merged into `oracle-sql-query` — use `oracle-sql-query` for all HR data queries.
 
