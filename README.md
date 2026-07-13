@@ -135,17 +135,18 @@ C:\Users\<you>\.vscode\extensions\oracle.sql-developer-<version>-win32-x64\dbtoo
 
 The `.claude/skills/` folder contains Claude AI skills that use the MCP tools above:
 
-| Skill | Purpose |
-|-------|---------|
-| `oracle-database-info` | Database version, schema metadata |
-| `oracle-hr-query` | Query HR tables (employees, departments, jobs…) |
-| `oracle-sql-query` | Run arbitrary SQL |
-| `oracle-search-tables` | Find tables by name pattern |
-| `oracle-search-columns` | Find columns across all tables |
-| `oracle-table-schema` | Describe table structure |
-| `oracle-table-constraints` | View PK/FK/check constraints |
-| `oracle-table-indexes` | View indexes |
-| `oracle-table-relationships` | Explore foreign key relationships |
+| Skill | MCP Tools Used | Purpose |
+|-------|---------------|---------|
+| `oracle-database-info` | `list-connections`, `run-sql` | Database version, schema metadata, list saved connections |
+| `oracle-sql-query` | `connect`, `run-sql`, `run-sqlcl`, `disconnect` | Run any SQL — HR data, custom queries, schema exploration |
+| `oracle-search-tables` | `connect`, `run-sql`, `disconnect` | Find tables by name pattern |
+| `oracle-search-columns` | `connect`, `run-sql`, `disconnect` | Find columns across all tables |
+| `oracle-table-schema` | `connect`, `run-sql`, `run-sqlcl`, `disconnect` | Describe table structure (DESC + metadata) |
+| `oracle-table-constraints` | `connect`, `run-sql`, `disconnect` | View PK/FK/check constraints |
+| `oracle-table-indexes` | `connect`, `run-sql`, `disconnect` | View indexes and indexed columns |
+| `oracle-table-relationships` | `connect`, `run-sql`, `disconnect` | Explore foreign key relationships |
+
+> **Note:** `oracle-hr-query` was merged into `oracle-sql-query` — use `oracle-sql-query` for all HR data queries.
 
 ### PowerShell Automation Scripts
 
