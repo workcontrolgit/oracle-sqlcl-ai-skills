@@ -60,6 +60,12 @@
 - **Direct Output Pattern:** Instead of `Format-SuccessOutput -Result $result -Message $msg`, use: `$jsonOutput = "``````json\n" + (ConvertTo-DiagnosticJson -Result $result) + "\n``````"` followed by manual markdown block construction. This preserves custom Status values from result hashtable.
 - **Array Normalization Efficiency:** Use `@($expression)` directly to ensure result is always an array, eliminating need for redundant `if ($x -isnot [object[]])` checks. Example: `$tableNames = @(($tables | Select-Object -ExpandProperty Name | Where-Object { -not [string]::IsNullOrEmpty($_) }))`
 
+## Task 14 Learnings (oracle-environment-sync-status)
+
+- **ValidatePattern Case Sensitivity:** PowerShell `[ValidatePattern]` uses case-insensitive regex by default. To reject lowercase, use `(?-i)` flag: `[ValidatePattern('(?-i)^[A-Z0-9_]{1,30}$')]`. Without it, `'^[A-Z0-9_]{1,30}$'` will silently accept lowercase letters.
+- **Sync Status Architecture:** Cross-environment sync skill: (1) Query each env's MAX(migration_id) from migrations table; (2) Classify available vs unavailable; (3) Compare distinct versions to set IN_SYNC/OUT_OF_SYNC/ERROR; (4) Classify each env as Ahead/Behind/InSync/Unavailable. Only available envs count for version comparison.
+- **Summary vs Full Output:** Summary format = JSON block only. Full format = JSON block + markdown table. Tests verify Summary.Length <= Full.Length.
+
 ## Task 12 Learnings (oracle-pre-deploy-check)
 
 - **Tier 3 Pre-Deployment Gating Pattern:** Orchestrator skill that runs multiple validation checks and determines deployment readiness. Uses helper functions for each check type (Invoke-*Check pattern), aggregation function for results summary, and conditional mode execution (strict=all checks, basic=minimal).
