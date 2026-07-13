@@ -147,8 +147,6 @@ The `.claude/skills/` folder contains Claude AI skills that use the MCP tools ab
 | `oracle-table-relationships` | `connect`, `run-sql`, `disconnect` | Explore foreign key relationships |
 | `oracle-export` | Bash → SQLcl directly | Export query results to CSV or Excel file |
 
-> **Note:** `oracle-hr-query` was merged into `oracle-sql-query` — use `oracle-sql-query` for all HR data queries.
-
 ### PowerShell Automation Scripts
 
 The `scripts/oracle/` folder contains PowerShell scripts for CI/CD and dev automation:
