@@ -4,32 +4,6 @@
       "command": "C:\\Users\\Fuji Nguyen\\.vscode\\extensions\\oracle.sql-developer-26.2.0-win32-x64\\dbtools\\sqlcl\\bin\\sql.exe",
       "args": ["-mcp"],
       "type": "stdio"
-    },
-    "oracle": {
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-e",
-        "ORACLE_CONNECTION_STRING",
-        "-e",
-        "TARGET_SCHEMA",
-        "-e",
-        "CACHE_DIR",
-        "-e",
-        "THICK_MODE",
-        "-e",
-        "READ_ONLY_MODE",
-        "dmeppiel/oracle-mcp-server"
-      ],
-      "env": {
-        "ORACLE_CONNECTION_STRING": "hr/HrUser_2026@host.docker.internal:1521/XEPDB1",
-        "TARGET_SCHEMA": "HR",
-        "CACHE_DIR": ".cache/oracle-mcp",
-        "THICK_MODE": "0",
-        "READ_ONLY_MODE": "1"
-      }
     }
   }
 }
