@@ -1,29 +1,32 @@
 ---
 name: oracle-sql-query
-description: Use when executing arbitrary SQL queries against Oracle database, fetching data, or running custom analysis via SQLcl
+description: Use when executing any SQL query against Oracle database - HR data, schema exploration, custom analysis, or arbitrary SQL
 ---
 
 # Oracle SQL Query
 
 ## Overview
 
-Execute arbitrary SQL queries against the Oracle database using the SQLcl MCP server.
+Execute SQL queries against the Oracle database using the SQLcl MCP server. Covers HR data queries, schema exploration, and any custom SQL.
 
 **Core principle:** Always execute real SQL via MCP tools — never guess or synthesize results.
 
 ## When to Use
 
-**SYMPTOMS that trigger this skill:**
+- User asks about HR tables, employees, departments, jobs, locations, regions
 - User provides a specific SQL query to run
-- User wants to fetch data from tables
-- User needs to perform custom analysis
-- User wants to test SQL before deployment
-- User needs data validation or reports
+- User wants to fetch, filter, or aggregate data
+- User needs schema exploration (tables, columns, constraints, indexes, relationships)
+- User needs custom analysis or reports
+- You're tempted to describe data or schema from knowledge instead of querying
 
 **When NOT to use:**
-- Exploring table schema → use oracle-table-schema
-- Searching for tables → use oracle-search-tables
-- Finding relationships → use oracle-table-relationships
+- Searching tables by name pattern → use oracle-search-tables
+- Finding columns across all tables → use oracle-search-columns
+- Viewing constraints → use oracle-table-constraints
+- Viewing indexes → use oracle-table-indexes
+- Viewing relationships → use oracle-table-relationships
+- Describing a table's structure → use oracle-table-schema
 
 ## Execution Method — SQLcl MCP Tools
 
@@ -33,60 +36,80 @@ Use MCP tools in this order:
 2. **`run-sql`** — execute the SQL query
 3. **`disconnect`** — close the connection
 
-### Basic Query
+For SQLcl-specific commands (SET, DESC, DDL):
+- Use **`run-sqlcl`** instead of `run-sql`
+
+## Common Query Examples
+
+### HR Data
 
 ```
 connect: hr_local
-run-sql: SELECT employee_id, first_name, salary FROM employees ORDER BY employee_id
+run-sql: SELECT * FROM departments ORDER BY department_id
 disconnect
 ```
-
-### Aggregation Query
 
 ```
 connect: hr_local
-run-sql: SELECT department_id, COUNT(*) AS employee_count, AVG(salary) AS avg_salary, MAX(salary) AS max_salary FROM employees GROUP BY department_id ORDER BY department_id
+run-sql: SELECT employee_id, first_name, last_name, job_id, salary FROM employees WHERE department_id = 10 ORDER BY last_name
 disconnect
 ```
-
-### Join Query
 
 ```
 connect: hr_local
-run-sql: SELECT e.first_name || ' ' || e.last_name AS employee_name, d.department_name, e.job_id, e.salary FROM employees e JOIN departments d ON e.department_id = d.department_id ORDER BY d.department_name, e.last_name
+run-sql: SELECT e.first_name || ' ' || e.last_name AS employee_name, d.department_name, e.salary FROM employees e JOIN departments d ON e.department_id = d.department_id ORDER BY d.department_name, e.last_name
 disconnect
 ```
 
-### SQLcl-Specific Commands (SET, DDL, etc.)
-
-Use `run-sqlcl` instead of `run-sql` for SQLcl commands:
+### Schema Exploration
 
 ```
 connect: hr_local
-run-sqlcl: SET SQLFORMAT json
-run-sql: SELECT * FROM employees
+run-sql: SELECT table_name FROM all_tables WHERE owner = 'HR' ORDER BY table_name
 disconnect
 ```
 
-## Implementation Steps
+```
+connect: hr_local
+run-sqlcl: DESC EMPLOYEES
+disconnect
+```
 
-1. **User provides SQL query**
-2. **Connect** via `connect` MCP tool with `hr_local`
-3. **Execute** via `run-sql` MCP tool
-4. **Disconnect** via `disconnect` MCP tool
-5. **Return actual results unchanged**
+### Aggregation
 
-## Common Mistakes
+```
+connect: hr_local
+run-sql: SELECT department_id, COUNT(*) AS employee_count, AVG(salary) AS avg_salary FROM employees GROUP BY department_id ORDER BY department_id
+disconnect
+```
 
-| Mistake | Fix |
-|---------|-----|
-| Query returns no results | Check WHERE clause and table names exist |
-| No headers in output | Results come back structured from MCP |
-| Missing data | Verify table names, column names, and JOIN conditions |
+## Critical Rules
 
-## Tips
+**DO:**
+- Use `connect` before any query
+- Use `run-sql` for SQL, `run-sqlcl` for SQLcl commands (DESC, SET)
+- Use `disconnect` after finishing
+- Return actual results unchanged
 
-- Use `LISTAGG()` to aggregate multiple rows into one
-- Use `WITH` clause for complex queries (subquery factoring)
-- Use `COUNT(*)` for row counts, `COUNT(column)` for non-null counts
-- Read-only — SELECT statements only; DDL/DML requires explicit approval
+**DON'T:**
+- Synthesize or guess data/schema from knowledge
+- Skip actual query execution
+
+## HR Schema Quick Reference
+
+**Tables:** REGIONS, COUNTRIES, LOCATIONS, DEPARTMENTS, JOBS, EMPLOYEES, JOB_HISTORY
+
+**Key relationships:**
+- EMPLOYEES.DEPARTMENT_ID → DEPARTMENTS.DEPARTMENT_ID
+- EMPLOYEES.JOB_ID → JOBS.JOB_ID
+- EMPLOYEES.MANAGER_ID → EMPLOYEES.EMPLOYEE_ID (self-ref)
+- DEPARTMENTS.LOCATION_ID → LOCATIONS.LOCATION_ID
+- LOCATIONS.COUNTRY_ID → COUNTRIES.COUNTRY_ID
+- COUNTRIES.REGION_ID → REGIONS.REGION_ID
+
+## Connection
+
+```
+Saved connection: hr_local
+Host: localhost | Port: 1521 | Service: XEPDB1 | User: hr
+```
