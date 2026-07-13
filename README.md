@@ -96,11 +96,76 @@ Run an SQL query from inside the container:
 docker exec -it oracle-hr sqlplus hr/HrUser_2026@//localhost:1521/XEPDB1
 ```
 
+## SQLcl MCP Server
+
+This project uses the **Oracle SQLcl MCP Server** (built into SQLcl 24+) to give Claude AI direct, structured access to the Oracle database — no Bash piping required.
+
+### SQLcl Location
+
+SQLcl is bundled with the VS Code Oracle SQL Developer extension:
+
+```
+C:\Users\<you>\.vscode\extensions\oracle.sql-developer-<version>-win32-x64\dbtools\sqlcl\bin\sql.exe
+```
+
+### MCP Server Tools
+
+| Tool | Description | Parameters |
+|------|-------------|------------|
+| `list-connections` | List all saved Oracle connections | none |
+| `connect` | Connect to a named saved connection | `connection` (name), `model`, `mcp_client` |
+| `disconnect` | Close the current connection | none |
+| `run-sql` | Execute SQL queries and PL/SQL blocks | `sql` (the SQL to execute) |
+| `run-sqlcl` | Execute SQLcl-specific commands (SET, DDL, Liquibase) | `sql` (the SQLcl command) |
+
+### MCP Server Setup (one-time)
+
+1. **Save the HR connection** in SQLcl so the MCP server can connect automatically:
+
+   ```powershell
+   & "<path-to-sql.exe>" hr/HrUser_2026@//localhost:1521/XEPDB1
+   # Inside SQLcl prompt:
+   conn -save hr_local -savepwd hr/HrUser_2026@//localhost:1521/XEPDB1
+   exit
+   ```
+
+2. **MCP server config** is already in `.claude/mcp.json` — Claude Code picks it up automatically.
+
+### Claude AI Skills
+
+The `.claude/skills/` folder contains Claude AI skills that use the MCP tools above:
+
+| Skill | Purpose |
+|-------|---------|
+| `oracle-database-info` | Database version, schema metadata |
+| `oracle-hr-query` | Query HR tables (employees, departments, jobs…) |
+| `oracle-sql-query` | Run arbitrary SQL |
+| `oracle-search-tables` | Find tables by name pattern |
+| `oracle-search-columns` | Find columns across all tables |
+| `oracle-table-schema` | Describe table structure |
+| `oracle-table-constraints` | View PK/FK/check constraints |
+| `oracle-table-indexes` | View indexes |
+| `oracle-table-relationships` | Explore foreign key relationships |
+
+### PowerShell Automation Scripts
+
+The `scripts/oracle/` folder contains PowerShell scripts for CI/CD and dev automation:
+
+| Folder | Purpose |
+|--------|---------|
+| `scripts/oracle/tier2/` | Dev support — migration status, schema conflicts, reset, permissions |
+| `scripts/oracle/tier3/` | CI/CD automation — schema drift, pre-deploy checks, env sync |
+| `scripts/oracle/shared/` | Shared PowerShell modules (OracleConnection, SchemaInspector, OutputFormatter) |
+| `scripts/oracle/tests/` | Pester unit tests |
+| `scripts/oracle/config/` | Environment configuration templates |
+
 ## Project Structure
 
 - `docker-compose.yml`: Oracle XE container configuration.
 - `init-scripts/`: SQL scripts used for HR bootstrap.
 - `start-scripts/`: Startup scripts executed on every container start to ensure HR schema exists.
+- `scripts/oracle/`: PowerShell automation scripts for migrations, schema validation, and CI/CD.
+- `.claude/skills/`: Claude AI skills for querying Oracle via MCP tools.
 - `docs/schema-overview.md`: HR schema entities and relationships.
 - `.vscode/tasks.json`: VS Code tasks for common Docker operations.
 
