@@ -1,6 +1,6 @@
 ---
 name: oracle-database-info
-description: Use when checking Oracle database version, schema information, or gathering database metadata
+description: Use when checking Oracle database version, schema information, gathering database metadata, or listing available saved connections
 ---
 
 # Oracle Database Info
@@ -17,6 +17,7 @@ Get Oracle database version, schema information, and database configuration usin
 - User asks "what Oracle version are we running?"
 - User wants database metadata (name, version, instance info)
 - User needs schema owner information
+- User asks "what connections are available?" or "what databases can I connect to?"
 - You're tempted to guess the database version
 
 ## Execution Method — SQLcl MCP Tools
@@ -58,6 +59,16 @@ connect: hr_local
 run-sql: SELECT username FROM dba_users WHERE account_status = 'OPEN' ORDER BY username
 disconnect
 ```
+
+### List Available Saved Connections
+
+Use `list-connections` — no connect/disconnect needed:
+
+```
+list-connections
+```
+
+This calls the MCP tool directly and returns all saved SQLcl connections the user has configured.
 
 ## Key Views
 
