@@ -201,3 +201,31 @@
 | 17:44 | Edited .claude/skills/oracle-skills/tier3/oracle-pre-deploy-check.ps1 | added 2 condition(s) | ~390 |
 | 17:44 | Edited .claude/skills/oracle-skills/tier3/oracle-pre-deploy-check.ps1 | added 1 condition(s) | ~308 |
 | 17:55 | Edited .claude/skills/oracle-skills/tier3/oracle-pre-deploy-check.Tests.ps1 | expanded (+126 lines) | ~3073 |
+
+## Session: 2026-07-09 17:59
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+
+## Session: 2026-07-13 06:24
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+
+## Session: 2026-07-13 06:24
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+| 07:03 | Created .superpowers/sdd/task-13-brief.md | — | ~1267 |
+| 07:03 | Created .superpowers/sdd/task-13-report.md | — | ~16 |
+| 07:04 | Created .claude/skills/oracle-skills/tier3/oracle-schema-drift-detect.Tests.ps1 | — | ~2561 |
+| 07:05 | Created .claude/skills/oracle-skills/tier3/oracle-schema-drift-detect.ps1 | — | ~2535 |
+| 08:48 | Edited .claude/skills/oracle-skills/tier3/oracle-schema-drift-detect.ps1 | "## Drift Objects (Extra —" → "## Drift Objects (Extra -" | ~19 |
+| 08:51 | Created .claude/skills/oracle-skills/tier3/oracle-schema-drift-detect.md | — | ~808 |
+| 08:53 | Created .superpowers/sdd/task-13-report.md | — | ~631 |
+| 08:53 | Implemented Task 13 oracle-schema-drift-detect skill (TDD, 30/30 tests) | tier3/oracle-schema-drift-detect.{ps1,Tests.ps1,md} | commit eccc1c0 | ~4000 |
+| 09:44 | Created .claude/skills/oracle-skills/tier3/oracle-schema-drift-detect.Tests.ps1 | — | ~5372 |
+| 11:08 | Edited .claude/skills/oracle-skills/tier3/oracle-schema-drift-detect.Tests.ps1 | modified foreach() | ~575 |
+| 11:08 | Edited .claude/skills/oracle-skills/tier3/oracle-schema-drift-detect.Tests.ps1 | modified foreach() | ~626 |
+| 11:09 | Edited .superpowers/sdd/task-13-report.md | added 1 condition(s) | ~628 |
+| 11:09 | Rewrote oracle-schema-drift-detect.Tests.ps1: removed all vacuous assertions and if-guards, added Invoke-SchemaComparison helper to test pure logic with controlled inputs | .claude/skills/oracle-skills/tier3/oracle-schema-drift-detect.Tests.ps1 | 40/40 tests passing | ~1200 |
