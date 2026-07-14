@@ -1,2 +1,8 @@
 .codegraph/
 .wolf/
+
+# OracleSqlclAgent
+src/OracleSqlclAgent/appsettings.Development.json
+src/OracleSqlclAgent/logs/
+src/OracleSqlclAgent/bin/
+src/OracleSqlclAgent/obj/
