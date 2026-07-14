@@ -1,6 +1,9 @@
-# Docker Oracle HR Schema
 
-This workspace provides a local Oracle XE database in Docker with an initialized HR schema and sample data.
+# Oracle SQLcl Skills
+
+**GitHub:** [github.com/workcontrolgit/oracle-sqlcl-ai-skills](https://github.com/workcontrolgit/oracle-sqlcl-ai-skills)
+
+Claude AI skills for working with Oracle databases via the SQLcl MCP server. Includes a local Oracle XE HR schema in Docker for development and testing.
 
 ## Prerequisites
 
