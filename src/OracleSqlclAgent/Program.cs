@@ -139,7 +139,7 @@ await new OracleAgent(chatClient, mcpTools, skills, style).RunAsync();
 catch (Exception ex)
 {
     Log.Fatal(ex, "Unhandled exception in OracleSqlclAgent");
-    AnsiConsole.MarkupLine($"[red]Fatal error:[/] {ex.Message}");
+    AnsiConsole.MarkupLine($"[red]Fatal error:[/] {ex.Message.EscapeMarkup()}");
     AnsiConsole.MarkupLine("[grey]Details logged to logs/error-*.log[/]");
     Environment.ExitCode = 1;
 }
