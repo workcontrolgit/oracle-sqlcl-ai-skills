@@ -12,6 +12,8 @@ from Part 1.
 - Part 2: MCP Server Configuration + Claude Skills
 - Part 3: Prompt Demos — Querying Oracle in Plain English ← you are here
 
+← [Part 2: MCP Server + Claude Skills](#)
+
 ---
 
 ## Demo 1: Connect to the Database
@@ -56,7 +58,7 @@ organized by object type.
 
 | Object Type | Objects |
 |-------------|---------|
-| TABLE | EMPLOYEES, DEPARTMENTS, JOBS, JOB_HISTORY, LOCATIONS, COUNTRIES, REGIONS |
+| TABLE | EMPLOYEES, DEPARTMENTS, JOBS, JOB_HISTORY, LOCATIONS, COUNTRIES, REGIONS, DBTOOLS$MCP_LOG |
 | INDEX | 9 indexes |
 | SEQUENCE | 1 sequence |
 
@@ -107,7 +109,7 @@ structure rather than data volume.
 **You type:**
 
 ```text
-oracle-table-constraints employees
+/oracle-table-constraints employees
 ```
 
 **SQL Claude runs:**
@@ -147,7 +149,7 @@ ORDER BY uc.constraint_type, uc.constraint_name, ucc.position
 **You type:**
 
 ```text
-oracle-table-relationships
+/oracle-table-relationships
 ```
 
 **What Claude does:** Queries `user_constraints` joined with

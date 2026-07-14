@@ -37,7 +37,7 @@ extension bundles it.
 
 After install, SQLcl is available at:
 
-```
+```text
 C:\Users\<you>\.vscode\extensions\oracle.sql-developer-<version>-win32-x64\dbtools\sqlcl\bin\sql.exe
 ```
 
@@ -102,10 +102,12 @@ The init scripts automatically create:
 
 ### Credentials
 
+> ⚠️ These are the default credentials from the Docker Compose file. Change them before any non-local use.
+
 | User | Password | Notes |
 |------|----------|-------|
-| `HR` | `HrUser_2026` | Schema owner, use for queries |
-| `SYSTEM` | `OracleSys_2026` | Admin, use for DBA operations |
+| `HR` | `<password>` | Schema owner, use for queries |
+| `SYSTEM` | `<password>` | Admin, use for DBA operations |
 
 Connection details:
 - Host: `localhost`

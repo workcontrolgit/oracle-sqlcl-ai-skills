@@ -10,6 +10,8 @@ with plain English.
 - Part 2: MCP Server Configuration + Claude Skills ← you are here
 - Part 3: Prompt Demos — Querying Oracle in Plain English
 
+← [Part 1: Setup](#)
+
 ---
 
 ## What is MCP?
@@ -62,10 +64,8 @@ parameters, and uses the response to answer you.
 
 After updating the path in `.mcp.json`:
 
-1. Open the project folder in VS Code
-2. Press `Ctrl+Shift+P` → **Developer: Reload Window**
-3. Start a new Claude Code chat session
-4. Type `/mcp` to verify
+1. Open a new Claude Code session in the project directory
+2. Type `/mcp` to verify
 
 You should see:
 
@@ -134,18 +134,16 @@ then returns a formatted summary of columns, types, and nullability.
 
 ### Connect first
 
-Before running any query, Claude needs to connect to the HR schema. Either
-ask Claude directly — "connect to the hr_local connection" — or use a skill
-that triggers a connect step automatically. The connection you saved in Part 1
-(`hr_local`) is what Claude uses:
-
-> ⚠️ The example connection string below uses the default credentials from the
-> [Docker Oracle HR Demo](https://github.com/gvenzl/oci-oracle-xe-free-docker) repo.
-> Replace `<password>` with your actual password.
+Before running any query, Claude needs to connect to the HR schema. In the
+Claude Code chat, just say:
 
 ```text
-hr/<password>@//localhost:1521/XEPDB1
+connect to hr_local
 ```
+
+Claude uses the `connect` MCP tool with the `hr_local` connection name you
+saved in Part 1 — you don't type connection strings into the chat. Claude
+handles the credentials from the saved connection automatically.
 
 > ✅ Once connected in a chat session, Claude stays connected until you
 > close the session or explicitly disconnect.
@@ -163,7 +161,7 @@ With the MCP server connected, run a quick smoke test:
 
 2. Claude should call `connect` then `sql_run`, and return something like:
    ```text
-   The HR schema has 107 employees.
+   The HR schema has 5 employees.
    ```
 
 If you see a live number instead of an error, the full stack is working:
