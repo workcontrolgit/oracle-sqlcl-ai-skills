@@ -90,9 +90,12 @@ Console.WriteLine(L($"Model     : {modelDisplay}"));
 Console.WriteLine(L($"Tools ({mcpTools.Count})  :"));
 foreach (var tool in mcpTools)
     Console.WriteLine(T(tool.Name ?? "(unnamed)"));
-Console.WriteLine(L($"Skills ({skillCount}) : oracle-sql-query, oracle-table-schema,"));
-Console.WriteLine(L($"           oracle-table-constraints, oracle-table-relationships,"));
-Console.WriteLine(L($"           oracle-database-info"));
+Console.WriteLine(L($"Skills ({skillCount}) :"));
+Console.WriteLine(T("oracle-sql-query"));
+Console.WriteLine(T("oracle-table-schema"));
+Console.WriteLine(T("oracle-table-constraints"));
+Console.WriteLine(T("oracle-table-relationships"));
+Console.WriteLine(T("oracle-database-info"));
 Console.WriteLine(L("Status    : READY"));
 Console.WriteLine($"└{new string('─', W + 2)}┘");
 Console.WriteLine();

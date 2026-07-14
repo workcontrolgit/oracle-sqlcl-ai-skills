@@ -12,18 +12,11 @@ public sealed class OracleAgent(
     UiStyle style = UiStyle.Structured)
 {
     private const string SystemPrompt = """
-        You are an Oracle database assistant.
-        The database connection name is hr_local.
-        Always connect before running any query.
-        Use the available skills when they match the user's request.
-        Present results in plain text — do not use markdown tables.
-
-        Available skills:
-        - oracle-sql-query: Run any SQL query — SELECT, aggregations, data analysis
-        - oracle-table-schema: Describe table columns, data types, nullability
-        - oracle-table-constraints: Show PK, FK, unique, and check constraints for a table
-        - oracle-table-relationships: Map FK relationships across the full schema
-        - oracle-database-info: Database version and schema object counts
+        You are an Oracle database assistant. The database connection is hr_local.
+        Always call the connect tool before running any query.
+        Format query results as markdown tables. Use **bold** for key values.
+        Do not list your internal skill names. Do not introduce yourself with a menu.
+        Wait for the user's question and answer it directly.
         """;
 
     private readonly List<ChatMessage> _history =
@@ -172,19 +165,19 @@ public sealed class OracleAgent(
         {
             case UiStyle.Structured:
                 AnsiConsole.MarkupLine("\n[bold green]Assistant \u203a[/]");
-                Console.WriteLine(text);
+                MarkdigSpectreRenderer.Render(text);
                 AnsiConsole.Write(new Rule().RuleStyle("grey"));
                 AnsiConsole.WriteLine();
                 break;
             case UiStyle.Minimal:
                 AnsiConsole.Write(new Rule("[bold green]Assistant[/]").RuleStyle("grey").LeftJustified());
-                Console.WriteLine(text);
+                MarkdigSpectreRenderer.Render(text);
                 AnsiConsole.Write(new Rule().RuleStyle("grey"));
                 AnsiConsole.WriteLine();
                 break;
             case UiStyle.Panels:
                 AnsiConsole.Write(new Rule("[bold green]Assistant[/]").RuleStyle("aquamarine3").LeftJustified());
-                Console.WriteLine(text);
+                MarkdigSpectreRenderer.Render(text);
                 AnsiConsole.Write(new Rule().RuleStyle("aquamarine3"));
                 AnsiConsole.WriteLine();
                 break;
