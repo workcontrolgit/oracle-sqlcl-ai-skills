@@ -9,6 +9,7 @@ with plain English.
 - Part 1: Setup — VS Code extension, Docker HR schema
 - Part 2: MCP Server Configuration + Claude Skills ← you are here
 - Part 3: Prompt Demos — Querying Oracle in Plain English
+- Part 4: Microsoft Agent Framework — C# Agent with SQLcl MCP
 
 ← [Part 1: Setup](#)
 
@@ -47,9 +48,6 @@ The demo repo ships with `.mcp.json` at the project root. This is Claude Code's
 **Update the `command` path** to match your local SQLcl location (the path you
 found in Part 1).
 
-> ⚠️ The config file is `.mcp.json` at the project root — not `.claude/mcp.json`.
-> Claude Code only reads the project-scoped MCP config from `.mcp.json`.
-
 ### How it works
 
 When Claude Code starts, it reads `.mcp.json` and launches the `sqlcl -mcp`
@@ -84,15 +82,13 @@ sqlcl  ✓ connected
 Once connected, Claude has access to these tools — it selects them automatically
 based on your question:
 
-| Tool | What it does |
-|------|--------------|
-| `connections_list` | List all saved Oracle connections |
-| `connect` | Connect to a named saved connection |
-| `schema_information` | Get schema overview (tables, object types) |
-| `sql_run` | Execute SQL queries |
-| `sqlcl_run` | Execute SQLcl commands (SET, DDL, Liquibase) |
-| `disconnect` | Close the current connection |
-| `request_status` | Check current connection status |
+- **`connections_list`** — List all saved Oracle connections
+- **`connect`** — Connect to a named saved connection
+- **`schema_information`** — Get schema overview (tables, object types)
+- **`sql_run`** — Execute SQL queries
+- **`sqlcl_run`** — Execute SQLcl commands (SET, DDL, Liquibase)
+- **`disconnect`** — Close the current connection
+- **`request_status`** — Check current connection status
 
 You don't call these tools directly — Claude selects the right tool and
 parameters automatically when you ask a question. The tool list is what Claude
@@ -106,17 +102,15 @@ The repo's `.claude/skills/` folder contains **Claude AI skills** — pre-built
 prompt templates that give Claude focused instructions for specific database
 tasks. You invoke them with a `/skill-name` command in the chat.
 
-| Skill | Invoke with | What it does |
-|-------|-------------|--------------|
-| `oracle-sql-query` | `/oracle-sql-query` | Run any SQL — data queries, analysis, custom SELECT |
-| `oracle-table-schema` | `/oracle-table-schema <table>` | Describe table columns and data types |
-| `oracle-table-constraints` | `/oracle-table-constraints <table>` | Show PK, FK, and check constraints |
-| `oracle-table-relationships` | `/oracle-table-relationships` | Map FK relationships across the schema |
-| `oracle-search-tables` | `/oracle-search-tables <pattern>` | Find tables by name pattern |
-| `oracle-search-columns` | `/oracle-search-columns <name>` | Find columns by name across all tables |
-| `oracle-table-indexes` | `/oracle-table-indexes <table>` | Show indexes and indexed columns |
-| `oracle-database-info` | `/oracle-database-info` | Database version, schema metadata, object counts |
-| `oracle-export` | `/oracle-export` | Export query results to CSV or Excel via SQLcl SPOOL |
+- **`/oracle-sql-query`** — Run any SQL — data queries, analysis, custom SELECT
+- **`/oracle-table-schema <table>`** — Describe table columns and data types
+- **`/oracle-table-constraints <table>`** — Show PK, FK, and check constraints
+- **`/oracle-table-relationships`** — Map FK relationships across the schema
+- **`/oracle-search-tables <pattern>`** — Find tables by name pattern
+- **`/oracle-search-columns <name>`** — Find columns by name across all tables
+- **`/oracle-table-indexes <table>`** — Show indexes and indexed columns
+- **`/oracle-database-info`** — Database version, schema metadata, object counts
+- **`/oracle-export`** — Export query results to CSV or Excel via SQLcl SPOOL
 
 Skills aren't required — you can ask Claude database questions directly and it
 will use the MCP tools on its own. Skills give Claude focused guidance for

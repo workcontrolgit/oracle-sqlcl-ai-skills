@@ -11,6 +11,7 @@ from Part 1.
 - Part 1: Setup — VS Code extension, Docker HR schema
 - Part 2: MCP Server Configuration + Claude Skills
 - Part 3: Prompt Demos — Querying Oracle in Plain English ← you are here
+- Part 4: Microsoft Agent Framework — C# Agent with SQLcl MCP
 
 ← [Part 2: MCP Server + Claude Skills](#)
 
@@ -56,11 +57,12 @@ organized by object type.
 
 **Result:**
 
-| Object Type | Objects |
-|-------------|---------|
-| TABLE | EMPLOYEES, DEPARTMENTS, JOBS, JOB_HISTORY, LOCATIONS, COUNTRIES, REGIONS, DBTOOLS$MCP_LOG |
-| INDEX | 9 indexes |
-| SEQUENCE | 1 sequence |
+```
+TABLE     EMPLOYEES, DEPARTMENTS, JOBS, JOB_HISTORY,
+          LOCATIONS, COUNTRIES, REGIONS, DBTOOLS$MCP_LOG
+INDEX     9 indexes
+SEQUENCE  1 sequence
+```
 
 Claude organizes and explains the schema — you don't need to know which
 system views to query.
@@ -89,13 +91,15 @@ ORDER BY EMPLOYEE_ID
 
 **Result:**
 
-| ID | First Name | Last Name | Job | Salary | Dept |
-|----|------------|-----------|-----|--------|------|
-| 100 | Steven | King | AD_PRES | 24,000 | 10 |
-| 101 | Neena | Kochhar | AD_VP | 17,000 | 10 |
-| 102 | Lex | De Haan | AD_VP | 17,000 | 10 |
-| 103 | Alexander | Hunold | IT_PROG | 9,000 | 60 |
-| 104 | Bruce | Ernst | IT_PROG | 6,000 | 60 |
+```
+ID   First Name  Last Name  Job       Salary  Dept
+---  ----------  ---------  --------  ------  ----
+100  Steven      King       AD_PRES   24,000    10
+101  Neena       Kochhar    AD_VP     17,000    10
+102  Lex         De Haan    AD_VP     17,000    10
+103  Alexander   Hunold     IT_PROG    9,000    60
+104  Bruce       Ernst      IT_PROG    6,000    60
+```
 
 You asked in plain English. Claude figured out the table name, column
 selection, and ordering. The Docker HR schema in this repo ships with
@@ -125,17 +129,22 @@ ORDER BY uc.constraint_type, uc.constraint_name, ucc.position
 
 **Claude explains:**
 
-| Constraint | Type | Column | Details |
-|---|---|---|---|
-| SYS_C008318 | Primary Key | EMPLOYEE_ID | Unique row identifier |
-| SYS_C008319 | Unique | EMAIL | No duplicate email addresses |
-| FK_EMPLOYEES_DEPT | Foreign Key | DEPARTMENT_ID | → DEPARTMENTS |
-| FK_EMPLOYEES_JOB | Foreign Key | JOB_ID | → JOBS |
-| FK_EMPLOYEES_MGR | Foreign Key | MANAGER_ID | → EMPLOYEES (self) |
-| SYS_C008314 | Check (NOT NULL) | FIRST_NAME | Required |
-| SYS_C008315 | Check (NOT NULL) | LAST_NAME | Required |
-| SYS_C008316 | Check (NOT NULL) | EMAIL | Required |
-| SYS_C008317 | Check (NOT NULL) | JOB_ID | Required |
+**Primary Key**
+- `SYS_C008318` — EMPLOYEE_ID — Unique row identifier
+
+**Unique**
+- `SYS_C008319` — EMAIL — No duplicate email addresses
+
+**Foreign Keys**
+- `FK_EMPLOYEES_DEPT` — DEPARTMENT_ID → DEPARTMENTS
+- `FK_EMPLOYEES_JOB` — JOB_ID → JOBS
+- `FK_EMPLOYEES_MGR` — MANAGER_ID → EMPLOYEES (self-reference)
+
+**NOT NULL checks**
+- `SYS_C008314` — FIRST_NAME — Required
+- `SYS_C008315` — LAST_NAME — Required
+- `SYS_C008316` — EMAIL — Required
+- `SYS_C008317` — JOB_ID — Required
 
 > 💡 `FK_EMPLOYEES_MGR` is a self-referencing foreign key — `MANAGER_ID`
 > points back to `EMPLOYEE_ID` on the same table. This is how the org
@@ -298,4 +307,4 @@ No changes to your MCP config, no new skills to write. Just update
 `hr_local` with a saved connection pointing at your target database.
 
 The full source — Docker setup, `.mcp.json`, and all Claude skills — is
-available at: [github.com/\<your-org\>/oracle](#)
+available at: [github.com/workcontrolgit/oracle-sqlcl-ai-skills](https://github.com/workcontrolgit/oracle-sqlcl-ai-skills)

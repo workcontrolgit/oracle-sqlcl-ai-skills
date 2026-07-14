@@ -11,6 +11,7 @@ get back live Oracle data. This first part gets the tooling running.
 - Part 1: Setup — VS Code extension, Docker HR schema ← you are here
 - Part 2: MCP Server Configuration + Claude Skills
 - Part 3: Prompt Demos — Querying Oracle in Plain English
+- Part 4: Microsoft Agent Framework — C# Agent with SQLcl MCP
 
 ---
 
@@ -59,8 +60,8 @@ This series uses a GitHub repo that provides a Docker Oracle XE instance
 pre-loaded with the HR sample schema.
 
 ```bash
-git clone https://github.com/<your-org>/oracle.git
-cd oracle
+git clone https://github.com/workcontrolgit/oracle-sqlcl-ai-skills.git
+cd oracle-sqlcl-ai-skills
 ```
 
 The repo contains:
@@ -104,10 +105,26 @@ The init scripts automatically create:
 
 > ⚠️ These are the default credentials from the Docker Compose file. Change them before any non-local use.
 
-| User | Password | Notes |
-|------|----------|-------|
-| `HR` | `<password>` | Schema owner, use for queries |
-| `SYSTEM` | `<password>` | Admin, use for DBA operations |
+- **HR** — `HrUser_2026` — Schema owner, use for queries
+- **SYSTEM** — `OracleSys_2026` — Admin, use for DBA operations
+
+To change them, open `docker-compose.yml` and update the `environment` block:
+
+```yaml
+environment:
+  ORACLE_PASSWORD: OracleSys_2026   # SYSTEM password
+  APP_USER: hr
+  APP_USER_PASSWORD: HrUser_2026    # HR password
+```
+
+After editing, do a full reset so Oracle picks up the new values:
+
+```powershell
+docker compose down -v
+docker compose up -d
+```
+
+> ⚠️ `ORACLE_PASSWORD` is only applied on first database initialization. If the volume already exists, Oracle ignores it — you must delete the volume (`down -v`) for the change to take effect.
 
 Connection details:
 - Host: `localhost`
