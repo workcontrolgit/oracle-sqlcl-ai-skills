@@ -69,7 +69,7 @@ After updating the path in `.mcp.json`:
 
 You should see:
 
-```
+```text
 sqlcl  ✓ connected
 ```
 
@@ -124,7 +124,7 @@ specific task types, which improves accuracy and reduces back-and-forth.
 
 ### What a skill invocation looks like
 
-```
+```text
 /oracle-table-schema EMPLOYEES
 ```
 
@@ -139,8 +139,12 @@ ask Claude directly — "connect to the hr_local connection" — or use a skill
 that triggers a connect step automatically. The connection you saved in Part 1
 (`hr_local`) is what Claude uses:
 
-```
-hr/HrUser_2026@//localhost:1521/XEPDB1
+> ⚠️ The example connection string below uses the default credentials from the
+> [Docker Oracle HR Demo](https://github.com/gvenzl/oci-oracle-xe-free-docker) repo.
+> Replace `<password>` with your actual password.
+
+```text
+hr/<password>@//localhost:1521/XEPDB1
 ```
 
 > ✅ Once connected in a chat session, Claude stays connected until you
@@ -153,12 +157,12 @@ hr/HrUser_2026@//localhost:1521/XEPDB1
 With the MCP server connected, run a quick smoke test:
 
 1. In Claude Code chat, type:
-   ```
+   ```text
    Connect to hr_local and tell me how many employees are in the database.
    ```
 
 2. Claude should call `connect` then `sql_run`, and return something like:
-   ```
+   ```text
    The HR schema has 107 employees.
    ```
 
