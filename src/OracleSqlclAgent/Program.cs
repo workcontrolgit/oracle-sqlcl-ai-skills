@@ -100,39 +100,9 @@ Console.WriteLine(L("Status    : READY"));
 Console.WriteLine($"└{new string('─', W + 2)}┘");
 Console.WriteLine();
 
-// ── 9. UI style picker (2s timeout → Structured) ──────────────────────────────
+// ── 9. UI style ───────────────────────────────────────────────────────────────
 
 var style = UiStyle.Structured;
-
-AnsiConsole.MarkupLine("[bold]Select UI style:[/]");
-AnsiConsole.MarkupLine("  [cyan][[1]][/] Structured - rules, spinners [grey](default)[/]");
-AnsiConsole.MarkupLine("  [cyan][[2]][/] Minimal    - rule-separated turns");
-AnsiConsole.MarkupLine("  [cyan][[3]][/] Panels     - bordered panel per message");
-AnsiConsole.Markup("[grey]Choice [[1]]:[/] ");
-
-try
-{
-    if (!Console.IsInputRedirected)
-    {
-        var deadline = DateTime.UtcNow.AddSeconds(2);
-        while (DateTime.UtcNow < deadline && !Console.KeyAvailable)
-            await Task.Delay(100);
-
-        if (Console.KeyAvailable)
-        {
-            var key = Console.ReadKey(intercept: true);
-            style = key.KeyChar switch
-            {
-                '2' => UiStyle.Minimal,
-                '3' => UiStyle.Panels,
-                _   => UiStyle.Structured
-            };
-        }
-    }
-}
-catch (OperationCanceledException) { }
-
-AnsiConsole.MarkupLine($"[green]{style}[/]\n");
 
 // ── 10. Run agent ─────────────────────────────────────────────────────────────
 
