@@ -1,6 +1,7 @@
 .codegraph/
 .wolf/
 .playwright-mcp/
+logs/
 
 # OracleSqlclAgent
 src/OracleSqlclAgent/appsettings.Development.json
