@@ -31,35 +31,39 @@ Log.Logger = new LoggerConfiguration()
         outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
     .CreateLogger();
 
+McpClient? oracleClient = null;
 try
 {
 
-// ── 3. Validate SQLcl path ────────────────────────────────────────────────────
+// ── 3. Resolve SQLcl path and connection name ─────────────────────────────────
 
-var sqlclPath = configuration["SqlclMcp:Path"]
-    ?? throw new InvalidOperationException(
-        "Missing configuration: SqlclMcp:Path — update appsettings.json or appsettings.Development.json " +
-        "with the full path to sql.exe from the Oracle SQL Developer VS Code extension.");
+var sqlclPath      = configuration["SqlclMcp:Path"];
+var connectionName = configuration["SqlclMcp:ConnectionName"] ?? "hr_local";
 
-if (!File.Exists(sqlclPath))
-    throw new InvalidOperationException(
-        $"SQLcl binary not found at: {sqlclPath}\n" +
-        "Update SqlclMcp:Path in appsettings.Development.json to the correct path.");
+// ── 4. Start SQLcl MCP server (optional) ─────────────────────────────────────
 
-// ── 4. Start SQLcl MCP server ─────────────────────────────────────────────────
+List<AITool> mcpTools = [];
 
-var transport = new StdioClientTransport(new StdioClientTransportOptions
+if (!string.IsNullOrWhiteSpace(sqlclPath) && File.Exists(sqlclPath))
 {
-    Command = sqlclPath,
-    Arguments = ["-mcp"],
-    Name = "sqlcl"
-});
+    var transport = new StdioClientTransport(new StdioClientTransportOptions
+    {
+        Command = sqlclPath,
+        Arguments = ["-mcp"],
+        Name = "OracleSqlcl",
+        StandardErrorLines = line => Log.Debug("[SQLcl MCP] {Line}", line)
+    });
+    oracleClient = await McpClient.CreateAsync(transport);
 
-await using var mcpClient = await McpClient.CreateAsync(transport);
-
-// ── 5. Enumerate MCP tools ────────────────────────────────────────────────────
-
-var mcpTools = (await mcpClient.ListToolsAsync()).Cast<AITool>().ToList();
+    // ── 5. Enumerate MCP tools ────────────────────────────────────────────────
+    mcpTools = (await oracleClient.ListToolsAsync()).Cast<AITool>().ToList();
+}
+else
+{
+    AnsiConsole.MarkupLine("[yellow]Warning:[/] SQLcl not found — Oracle MCP tools disabled.");
+    AnsiConsole.MarkupLine("[grey]Set SqlclMcp:Path in appsettings.json to enable Oracle connectivity.[/]");
+    AnsiConsole.WriteLine();
+}
 
 // ── 6. Register skills ────────────────────────────────────────────────────────
 
@@ -77,6 +81,7 @@ const int skillCount = 5;
 var provider = configuration["AI:Provider"] ?? "Anthropic";
 IChatClient chatClient = BuildChatClient(configuration, provider);
 var modelDisplay = GetModelDisplay(configuration, provider);
+var defaultChatOptions = BuildDefaultChatOptions(configuration, provider);
 
 // ── 8. Startup banner ─────────────────────────────────────────────────────────
 
@@ -106,7 +111,7 @@ var style = UiStyle.Structured;
 
 // ── 10. Run agent ─────────────────────────────────────────────────────────────
 
-await new OracleAgent(chatClient, mcpTools, skills, style).RunAsync();
+await new OracleAgent(chatClient, mcpTools, skills, style, defaultChatOptions, connectionName).RunAsync();
 
 }
 catch (Exception ex)
@@ -118,10 +123,29 @@ catch (Exception ex)
 }
 finally
 {
+    if (oracleClient is not null)
+        await oracleClient.DisposeAsync();
     await Log.CloseAndFlushAsync();
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
+
+static ChatOptions BuildDefaultChatOptions(IConfiguration config, string provider)
+{
+    var options = new ChatOptions();
+    if (string.Equals(provider, "Ollama", StringComparison.OrdinalIgnoreCase))
+    {
+        var numCtxStr = config["AI:Ollama:NumCtx"];
+        if (int.TryParse(numCtxStr, out var numCtx) && numCtx > 0)
+        {
+            options.AdditionalProperties = new AdditionalPropertiesDictionary
+            {
+                ["num_ctx"] = numCtx
+            };
+        }
+    }
+    return options;
+}
 
 static IChatClient BuildChatClient(IConfiguration config, string provider)
 {
@@ -133,16 +157,28 @@ static IChatClient BuildChatClient(IConfiguration config, string provider)
         return (IChatClient)new OllamaApiClient(http, model, null!);
     }
 
+    if (string.Equals(provider, "AzureOpenAI", StringComparison.OrdinalIgnoreCase))
+    {
+        var endpoint   = config["AI:AzureOpenAI:Endpoint"]       ?? throw new InvalidOperationException("Missing AI:AzureOpenAI:Endpoint");
+        var deployment = config["AI:AzureOpenAI:DeploymentName"] ?? throw new InvalidOperationException("Missing AI:AzureOpenAI:DeploymentName");
+        var apiKey     = config["AI:AzureOpenAI:ApiKey"]         ?? throw new InvalidOperationException("Missing AI:AzureOpenAI:ApiKey — run: dotnet user-secrets set \"AI:AzureOpenAI:ApiKey\" \"YOUR_KEY\"");
+        var azureClient = new Azure.AI.OpenAI.AzureOpenAIClient(new Uri(endpoint), new System.ClientModel.ApiKeyCredential(apiKey));
+        return azureClient.GetChatClient(deployment).AsIChatClient();
+    }
+
     // Default: Anthropic
-    var apiKey = config["AI:Anthropic:ApiKey"];
-    var claude = string.IsNullOrEmpty(apiKey)
-        ? new AnthropicClient()                         // uses ANTHROPIC_API_KEY env var
-        : new AnthropicClient() { ApiKey = apiKey };
+    var anthropicKey = config["AI:Anthropic:ApiKey"];
+    var claude = string.IsNullOrEmpty(anthropicKey)
+        ? new AnthropicClient()
+        : new AnthropicClient() { ApiKey = anthropicKey };
     var claudeModel = config["AI:Anthropic:Model"] ?? "claude-opus-4-6";
     return claude.AsIChatClient(claudeModel);
 }
 
 static string GetModelDisplay(IConfiguration config, string provider) =>
-    string.Equals(provider, "Ollama", StringComparison.OrdinalIgnoreCase)
-        ? config["AI:Ollama:Model"] ?? "llama3.2"
-        : config["AI:Anthropic:Model"] ?? "claude-opus-4-6";
+    provider.ToLowerInvariant() switch
+    {
+        "ollama"      => config["AI:Ollama:Model"]                ?? "llama3.2",
+        "azureopenai" => config["AI:AzureOpenAI:DeploymentName"] ?? "gpt-4o-mini",
+        _             => config["AI:Anthropic:Model"]             ?? "claude-opus-4-6"
+    };

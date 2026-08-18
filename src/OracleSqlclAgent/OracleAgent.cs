@@ -5,27 +5,58 @@ namespace OracleSqlclAgent;
 
 public enum UiStyle { Structured, Minimal, Panels }
 
-public sealed class OracleAgent(
-    IChatClient chatClient,
-    IList<AITool> tools,
-    AgentSkillsProvider skills,
-    UiStyle style = UiStyle.Structured)
+public sealed class OracleAgent
 {
-    private const string SystemPrompt = """
-        You are an Oracle database assistant. The database connection is hr_local.
-        Always call the connect tool before running any query.
-        Format query results as markdown tables. Use **bold** for key values.
-        Do not list your internal skill names. Do not introduce yourself with a menu.
-        Wait for the user's question and answer it directly.
-        """;
+    private readonly IChatClient _chatClient;
+    private readonly IList<AITool> _tools;
+    private readonly UiStyle _style;
+    private readonly ChatOptions _agentOptions;
+    private readonly List<ChatMessage> _history;
+    private readonly string _connectionName;
 
-    private readonly List<ChatMessage> _history =
-    [
-        new(ChatRole.System, SystemPrompt)
-    ];
+    private const int MaxIterations = 20;
+
+    public OracleAgent(
+        IChatClient chatClient,
+        IList<AITool> tools,
+        AgentSkillsProvider skills,
+        UiStyle style = UiStyle.Structured,
+        ChatOptions? defaultOptions = null,
+        string connectionName = "hr_local")
+    {
+        _chatClient = chatClient;
+        _tools = tools;
+        _style = style;
+        _connectionName = connectionName;
+        _history = [];
+        _agentOptions = new ChatOptions
+        {
+            Tools = [.. tools],
+            AdditionalProperties = defaultOptions?.AdditionalProperties
+        };
+    }
+
+    // ── Pre-connect ──────────────────────────────────────────────────────────
+
+    private async Task ConnectAsync(CancellationToken ct)
+    {
+        var fn = _tools.OfType<AIFunction>()
+            .FirstOrDefault(t => string.Equals(t.Name, "connect", StringComparison.OrdinalIgnoreCase));
+        if (fn is null) return;
+        try
+        {
+            await fn.InvokeAsync(
+                new AIFunctionArguments(new Dictionary<string, object?> { ["connection_name"] = _connectionName }),
+                ct);
+        }
+        catch { /* will reconnect on first tool call if needed */ }
+    }
+
+    // ── REPL ─────────────────────────────────────────────────────────────────
 
     public async Task RunAsync(CancellationToken ct = default)
     {
+        await ConnectAsync(ct);
         RenderWelcome();
 
         while (!ct.IsCancellationRequested)
@@ -34,70 +65,86 @@ public sealed class OracleAgent(
             if (string.IsNullOrWhiteSpace(input)) continue;
             if (input.Equals("exit", StringComparison.OrdinalIgnoreCase)) break;
 
-            _history.Add(new ChatMessage(ChatRole.User, input));
-
-            var text = await RunToolLoopAsync(ct);
+            var text = await Spin("Thinking\u2026", _ => RunAgentLoopAsync(input, ct));
             RenderResponse(text);
         }
     }
 
     public async Task<string> AskAsync(string input, CancellationToken ct = default)
     {
-        if (string.IsNullOrWhiteSpace(input))
-            return string.Empty;
-
-        _history.Add(new ChatMessage(ChatRole.User, input));
-        return await RunToolLoopAsync(ct);
+        if (string.IsNullOrWhiteSpace(input)) return string.Empty;
+        return await RunAgentLoopAsync(input, ct);
     }
 
-    // ── Manual tool call loop ────────────────────────────────────────────────
+    // ── Agentic loop ─────────────────────────────────────────────────────────
 
-    private async Task<string> RunToolLoopAsync(CancellationToken ct)
+    private string SystemPrompt => $"""
+        You are an Oracle database assistant with access to SQLcl MCP tools.
+        Default connection: {_connectionName}
+        Schema: Oracle HR sample schema (EMPLOYEES, DEPARTMENTS, JOBS, LOCATIONS, COUNTRIES, REGIONS, JOB_HISTORY).
+
+        To answer database questions, use the tools in this order:
+        1. 'connect' — with connection_name='{_connectionName}'
+        2. 'sql_run' — SQL queries, parameter name is 'sql' (e.g. sql: "SELECT * FROM employees")
+        3. 'schema_information' — schema/metadata exploration (no SQL needed)
+        4. 'disconnect' — when done
+
+        Present results clearly with markdown tables and a one-sentence summary.
+        For non-database questions, answer directly without calling any tools.
+        """;
+
+    private async Task<string> RunAgentLoopAsync(string userInput, CancellationToken ct)
     {
-        var options = new ChatOptions { Tools = tools };
+        var messages = new List<ChatMessage> { new(ChatRole.System, SystemPrompt) };
+        messages.AddRange(_history);
+        messages.Add(new ChatMessage(ChatRole.User, userInput));
 
-        var response = await Spin("Thinking\u2026", _ =>
-            chatClient.GetResponseAsync(_history, options, ct));
-
-        while (true)
+        for (int i = 0; i < MaxIterations; i++)
         {
-            var toolCalls = response.Messages
-                .SelectMany(m => m.Contents.OfType<FunctionCallContent>())
+            var response = await _chatClient.GetResponseAsync(messages, _agentOptions, ct);
+
+            foreach (var msg in response.Messages)
+                messages.Add(msg);
+
+            var calls = response.Messages
+                .SelectMany(m => m.Contents)
+                .OfType<FunctionCallContent>()
                 .ToList();
 
-            if (toolCalls.Count == 0)
+            if (calls.Count == 0)
             {
-                _history.AddMessages(response);
+                _history.Add(new ChatMessage(ChatRole.User, userInput));
+                _history.Add(new ChatMessage(ChatRole.Assistant, response.Text ?? string.Empty));
                 return response.Text ?? string.Empty;
             }
 
-            // Append assistant messages (with tool call requests) to history
-            foreach (var msg in response.Messages)
-                _history.Add(msg);
-
-            // Execute each tool and append result to history
-            foreach (var call in toolCalls)
+            foreach (var call in calls)
             {
-                var fn = tools.FirstOrDefault(t => t.Name == call.Name) as AIFunction;
-                object? rawResult;
-
-                if (fn is null)
-                {
-                    rawResult = $"Tool '{call.Name}' not found.";
-                }
-                else
-                {
-                    var fnArgs = call.Arguments is null ? null : new AIFunctionArguments(call.Arguments);
-                    try { rawResult = await fn.InvokeAsync(fnArgs, ct); }
-                    catch (Exception ex) { rawResult = $"Error: {ex.Message}"; }
-                }
-
-                _history.Add(new ChatMessage(ChatRole.Tool,
-                    [new FunctionResultContent(call.CallId ?? string.Empty, rawResult)]));
+                var result = await InvokeToolAsync(call, ct);
+                messages.Add(new ChatMessage(ChatRole.Tool,
+                    [new FunctionResultContent(call.CallId, result)]));
             }
+        }
 
-            response = await Spin("Thinking\u2026", _ =>
-                chatClient.GetResponseAsync(_history, options, ct));
+        return "[Agent loop reached the iteration limit — please rephrase your question]";
+    }
+
+    private async Task<object?> InvokeToolAsync(FunctionCallContent call, CancellationToken ct)
+    {
+        var fn = _tools.OfType<AIFunction>()
+            .FirstOrDefault(t => string.Equals(t.Name, call.Name, StringComparison.OrdinalIgnoreCase));
+
+        if (fn is null) return $"[Tool '{call.Name}' not found]";
+
+        try
+        {
+            return await fn.InvokeAsync(
+                new AIFunctionArguments(call.Arguments ?? new Dictionary<string, object?>()),
+                ct);
+        }
+        catch (Exception ex)
+        {
+            return $"[Tool error: {ex.Message}]";
         }
     }
 
@@ -113,7 +160,7 @@ public sealed class OracleAgent(
 
     private void RenderWelcome()
     {
-        switch (style)
+        switch (_style)
         {
             case UiStyle.Structured:
                 AnsiConsole.Write(new Rule("[bold cyan]Oracle Assistant[/]").RuleStyle("cyan").LeftJustified());
@@ -132,13 +179,13 @@ public sealed class OracleAgent(
                 AnsiConsole.MarkupLine("[grey]Type [bold]exit[/] to quit.[/]\n");
                 break;
             default:
-                throw new NotSupportedException($"Unknown UiStyle: {style}");
+                throw new NotSupportedException($"Unknown UiStyle: {_style}");
         }
     }
 
     private string RenderUserPrompt()
     {
-        switch (style)
+        switch (_style)
         {
             case UiStyle.Structured:
                 AnsiConsole.Markup("[bold yellow]You \u203a[/] ");
@@ -149,7 +196,7 @@ public sealed class OracleAgent(
             case UiStyle.Panels:
                 return AnsiConsole.Ask<string>("[bold yellow]You \u203a[/]");
             default:
-                throw new NotSupportedException($"Unknown UiStyle: {style}");
+                throw new NotSupportedException($"Unknown UiStyle: {_style}");
         }
     }
 
@@ -161,7 +208,7 @@ public sealed class OracleAgent(
             return;
         }
 
-        switch (style)
+        switch (_style)
         {
             case UiStyle.Structured:
                 AnsiConsole.MarkupLine("\n[bold green]Assistant \u203a[/]");
@@ -182,7 +229,7 @@ public sealed class OracleAgent(
                 AnsiConsole.WriteLine();
                 break;
             default:
-                throw new NotSupportedException($"Unknown UiStyle: {style}");
+                throw new NotSupportedException($"Unknown UiStyle: {_style}");
         }
     }
 }
